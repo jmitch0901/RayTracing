@@ -1,0 +1,33 @@
+<scene>
+  <instance name="sphere" path="models/sphere" />
+  <instance name="box" path="models/box" />
+  <image name="checkerboard" path="resources/checkerboard.png" />
+
+  
+  
+  <transform>
+    <set>
+      <scale>5 5 5</scale>
+    </set>
+    <light>
+      <ambient>0.2 0.2 0.2</ambient>
+      <diffuse>0.4 0.4 0.4</diffuse>
+      <specular>0.4 0.4 0.4</specular>
+      <position>0 0 50</position>
+    </light>
+    <object instanceof="sphere" texture="checkerboard">
+      <material>
+        <ambient>1 .1 .1</ambient>
+        <diffuse>1 .1 .1</diffuse>
+        <specular>1 .1 .1</specular>
+        <shininess>10</shininess>
+        <absorption>0.5 </absorption>
+        <reflection>0.1</reflection>
+        <transparency>0.4</transparency>
+        <refractive>1.2</refractive>
+      </material>
+    </object>
+    
+  </transform>
+
+</scene>

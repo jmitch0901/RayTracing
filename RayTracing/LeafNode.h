@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "utils/Texture.h"
+#include "Ray.h"
+#include "HitRecord.h"
 
 
 class LeafNode : public Node
@@ -112,6 +114,74 @@ public:
 
 		instanceOf->draw(GL_TRIANGLES);	
     }
+
+	virtual bool intersect(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
+
+		if(instanceOf == NULL){
+			cout<<"For Some reason, your leaf node had a null object associated with it!"<<endl;
+			return false;
+		}
+
+		if(instanceOf->getName() == "sphere"){
+		
+
+			float highT,lowT,currentT; //answers
+
+			float a = R.getV().x*R.getV().x + R.getV().y*R.getV().y + R.getV().z*R.getV().z;
+			float b = 2*R.getS().x*R.getV().x + 2*R.getS().y*R.getV().y + 2*R.getS().z*R.getV().z;
+			float c = R.getS().x*R.getS().x + R.getS().y*R.getS().y + R.getS().z*R.getS().z;
+
+			if(a==0){
+				return false;
+			}
+
+			float determinant = b*b - 4*a*c;
+
+			if(determinant<0){
+				return false;
+			}
+
+
+			highT = (-b + determinant)/(2*a);
+			lowT = (-b - determinant)/(2*a);
+
+			if(lowT<0 && highT<0){
+				return false;
+			}
+			
+			if(lowT<0){
+				currentT = highT;
+			} else if(highT<0){
+				currentT = lowT;
+			} else {
+				
+				if(lowT < highT) currentT = lowT;
+				else currentT = highT;
+
+			}
+
+
+		
+			return true;
+		
+		
+		} else if(instanceOf->getName() == "box"){
+
+
+
+
+
+
+
+		} else {
+
+			cout<<"Couldn't ray-cast shape for: "<<instanceOf->getName()<<endl;
+			return false;
+
+		}
+
+
+	}
 
 
 	//CHANGE THIS DRAW AS WELL

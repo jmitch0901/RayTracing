@@ -73,7 +73,7 @@ void View::openFile(string filename)
 
 	//cout<<"ABOUT TO GATHER LIGHTING"<<endl;
 	gatheredLights = sgraph.gatherLightingObjects();
-	//cout<<"GOT "<<gatheredLights.size()<<" LIGHTS!"<<endl;
+	cout<<"GOT "<<gatheredLights.size()<<" LIGHTS!"<<endl;
 
 	//cout<<"Your Lights: "<<endl;
 
@@ -81,7 +81,7 @@ void View::openFile(string filename)
 	//FOR DEBUGGING
 	for(int i = 0 ; i < gatheredLights.size(); i++){
 		glm::vec4 pos = gatheredLights[i].getPosition();	
-		//cout<<"Light["<<i<<"]: Position(x,y,z)"<<pos[0]<<", "<<pos[1]<<", "<<pos[2]<<endl;
+		cout<<"Light["<<i<<"]: Position(x,y,z)"<<pos[0]<<", "<<pos[1]<<", "<<pos[2]<<endl;
 	}
 	
 	//cout<<"Error: " <<glGetError()<<endl;
@@ -196,7 +196,7 @@ void View::draw()
 
     modelview.push(glm::mat4(1.0));
 
-	modelview.top() = modelview.top() * glm::lookAt(glm::vec3(0,0,10),glm::vec3(0,0,0),glm::vec3(0,1,0)) * trackballTransform;
+	modelview.top() = modelview.top() * glm::lookAt(glm::vec3(0,0,2),glm::vec3(0,0,0),glm::vec3(0,1,0)) * trackballTransform;
 
 	/*if(!debugBool)
 		cout<<glGetError()<<endl;*/
@@ -224,7 +224,7 @@ void View::draw()
 		glUniform3fv(lightLocations[i].ambientLocation,1,glm::value_ptr(gatheredLights[i].getAmbient()));
         glUniform3fv(lightLocations[i].diffuseLocation,1,glm::value_ptr(gatheredLights[i].getDiffuse()));
         glUniform3fv(lightLocations[i].specularLocation,1,glm::value_ptr(gatheredLights[i].getSpecular()));
-		glUniform4fv(lightLocations[i].positionLocation,1,glm::value_ptr(gatheredLights[i].getPosition()));
+		glUniform4fv(lightLocations[i].positionLocation,1,glm::value_ptr(modelview.top()*gatheredLights[i].getPosition()));
     }
 	/*if(!debugBool)
 		cout<<glGetError()<<endl;*/
@@ -238,6 +238,25 @@ void View::draw()
 	debugBool=true;
 }
 
+void View::raytrace(int width, int height){
+
+	sf::Image raytraced;
+	sf::Uint8* pixels = new sf::Uint8[width * height * 4];
+	float* arr = sgraph.raytrace(width, height, modelview);
+
+	//cout << "Pixels Uint8 size: " << width * height * 4 << endl;
+	//cout << "Float array size: " << 
+
+	for(int i = 0; i < width*height*4; i++){
+		pixels[i] = arr[i] * 255;								//Uint8 goes from 0 - 255 ?
+	}
+
+	raytraced.create(width, height, pixels);
+	raytraced.saveToFile("Raytraced.png");
+
+	delete[] pixels;
+	delete[] arr;
+}
 
 void View::mousepress(int x, int y)
 {

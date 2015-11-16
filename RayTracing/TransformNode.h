@@ -4,6 +4,8 @@
 
 #include "Node.h"
 #include "GroupNode.h"
+#include "Ray.h"
+#include "HitRecord.h"
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -129,6 +131,22 @@ public:
 			child->draw(modelView);
         modelView.pop();
     }
+
+	virtual bool intersect(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
+
+		bool returnBool = false;
+		modelview.push(modelview.top());
+		modelview.top() = glm::inverse(glm::transpose(modelview.top()));
+
+		if(child!=NULL){
+			returnBool = child->intersect(R,modelview,hr);
+		}
+
+		modelview.pop();
+
+		return returnBool;
+
+	}
 
 	virtual void drawBB(stack<glm::mat4>& modelView)
 	{

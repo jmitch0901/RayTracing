@@ -63,6 +63,8 @@ public:
     void draw();
     void openFile(string filename);
 
+	void raytrace(int width, int height);
+
     void mousepress(int x,int y);
     void mousemove(int x,int y);
 

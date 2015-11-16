@@ -7,10 +7,14 @@
 #include <stack>
 #include <vector>
 #include <iostream>
+#include "Ray.h"
+#include "HitRecord.h"
 using namespace std;
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GL/gl.h>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "utils/Object.h"
 #include "Node.h"
 #include "utils/Texture.h"
@@ -28,6 +32,7 @@ public:
     void draw(stack<glm::mat4>& modelView);
 	void initAnimate();
 	void animate(float t);
+	float* raytrace(int width, int height, stack<glm::mat4> &modelview);
 
 	vector<graphics::Light> gatherLightingObjects();
 
@@ -72,6 +77,11 @@ protected:
 
 private:
     Node *root;
+	float* raycast(Ray R, stack<glm::mat4> &modelview);
+	bool closestIntersection(Ray R, stack<glm::mat4> &modelview, HitRecord &hr);
+	float* shade(Ray R, HitRecord &hr, vector<graphics::Light> lights);
+
+	vector<graphics::Light> allLights;
 	
 	map<string,graphics::Object *> instances;
 	map<string,graphics::Texture *> textures;

@@ -10,6 +10,8 @@
 #include <iostream>
 using namespace std;
 #include "utils/Light.h"
+#include "Ray.h"
+#include "HitRecord.h"
 #include <glm/glm.hpp>
 
 class Scenegraph;
@@ -54,6 +56,7 @@ public:
 	virtual Node *clone()=0;
 	virtual graphics::Object *getInstanceOf(string name)=0;
 	virtual vector<graphics::Light> grabLightingObjects()=0;
+	virtual bool intersect(Ray R, stack<glm::mat4> &modelview,HitRecord &hr)=0;
 
 	void setParent(Node *parent)
 	{

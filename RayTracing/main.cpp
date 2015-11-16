@@ -115,6 +115,8 @@ void processEvent(sf::Event event,sf::RenderWindow& window)
 		case sf::Keyboard::R:
 			v.openFile(filename);
 			break;
+		case sf::Keyboard::Num1:
+			v.raytrace(width, height);
 		default:
 			break;
 		}
@@ -235,9 +237,9 @@ void init(string& filename)
 	v.initialize();
 	v.openFile(filename);
 
-	if (!font.loadFromFile("resources/sansation.ttf")){
+	/*if (!font.loadFromFile("resources/sansation.ttf")){
 		cout<<"error loading font!"<<endl;
 		return;
-	}
+	}*/
 
 }

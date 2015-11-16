@@ -7,13 +7,13 @@
   
   <transform>
     <set>
-      <scale>5 5 5</scale>
+      <!--<scale>5 5 5</scale>-->
     </set>
     <light>
-      <ambient>0.2 0.2 0.2</ambient>
+      <ambient>0.8 0.8 0.8</ambient>
       <diffuse>0.4 0.4 0.4</diffuse>
       <specular>0.4 0.4 0.4</specular>
-      <position>0 0 50</position>
+      <position>10 0 0</position>
     </light>
     <object instanceof="sphere" texture="checkerboard">
       <material>

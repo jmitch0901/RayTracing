@@ -5,6 +5,8 @@
 #include <vector>
 using namespace std;
 #include "Node.h"
+#include "Ray.h"
+#include "HitRecord.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 
@@ -107,6 +109,20 @@ public:
             children[i]->draw(modelView);
         }
     }
+
+	virtual bool intersect(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
+
+		bool returnBool = false;
+
+		for(int i = 0; i < children.size(); i++){
+
+			returnBool |= children[i]->intersect(R,modelview,hr);
+
+		}
+
+		return returnBool;
+
+	}
 
 	void setScenegraph(Scenegraph * graph)
 	{

@@ -66,7 +66,7 @@ public:
 	virtual void draw(stack<glm::mat4> &modelView)
     {
 
-		GLuint a;
+		//GLuint a;
         if (instanceOf!=NULL)
 		{
 			//START DRAW HERE!

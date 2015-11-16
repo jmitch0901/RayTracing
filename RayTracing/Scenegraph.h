@@ -7,17 +7,18 @@
 #include <stack>
 #include <vector>
 #include <iostream>
-#include "Ray.h"
-#include "HitRecord.h"
 using namespace std;
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <GL/gl.h>
+#include "Node.h"
+#include "utils/Material.h"
+#include "utils/Object.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "utils/Object.h"
-#include "Node.h"
 #include "utils/Texture.h"
+#include "Ray.h"
+#include "HitRecord.h"
 
 class Scenegraph
 {    

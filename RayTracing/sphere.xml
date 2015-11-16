@@ -7,7 +7,8 @@
   
   <transform>
     <set>
-      <translate>3 0 0</translate>
+      <translate>2 0 0</translate>
+      
     </set>
     <light>
       <ambient>0.8 0.8 0.8</ambient>
@@ -15,7 +16,7 @@
       <specular>0.4 0.4 0.4</specular>
       <position>10 0 0</position>
     </light>
-    <object instanceof="sphere" texture="checkerboard">
+    <object instanceof="box" texture="checkerboard">
       <material>
         <ambient>1 .1 .1</ambient>
         <diffuse>1 .1 .1</diffuse>

@@ -21,6 +21,7 @@ View::View()
 	time = 0.0;
 	debugBool=false;
 	cameraHeight = 40;
+	doMe = false;
 }
 
 View::~View()
@@ -33,6 +34,8 @@ void View::resize(int w, int h)
     //record the new dimensions
     WINDOW_WIDTH = w;
     WINDOW_HEIGHT = h;
+
+	cout<<"WINDOW: "<<WINDOW_WIDTH<<" "<<WINDOW_HEIGHT<<endl;
 
     /*
      * This program uses orthographic projection. The corresponding matrix for this projection is provided by the glm function below.
@@ -196,7 +199,7 @@ void View::draw()
 
     modelview.push(glm::mat4(1.0));
 
-	modelview.top() = modelview.top() * glm::lookAt(glm::vec3(0,0,2),glm::vec3(0,0,0),glm::vec3(0,1,0)) * trackballTransform;
+	modelview.top() = modelview.top() * glm::lookAt(glm::vec3(0,0,4),glm::vec3(0,0,0),glm::vec3(0,1,0)) * trackballTransform;
 
 	/*if(!debugBool)
 		cout<<glGetError()<<endl;*/
@@ -231,6 +234,12 @@ void View::draw()
 
 	//END LIGHTING
 
+	if(doMe){
+		cout<<"WINDOW AFTER DOING ME: "<<WINDOW_WIDTH<<" "<<WINDOW_HEIGHT<<endl;
+		this->raytrace(WINDOW_WIDTH,WINDOW_HEIGHT);
+		doMe=false;
+	}
+
 
     glFinish();
 	glUseProgram(0);
@@ -238,8 +247,14 @@ void View::draw()
 	debugBool=true;
 }
 
-void View::raytrace(int width, int height){
+void View::flagForRaytrace(bool doMe){
 
+	this->doMe = doMe;
+
+}
+
+void View::raytrace(int width, int height){
+	cout<<"Creating image..."<<endl;
 	sf::Image raytraced;
 	sf::Uint8* pixels = new sf::Uint8[width * height * 4];
 	float* arr = sgraph.raytrace(width, height, modelview);
@@ -252,10 +267,15 @@ void View::raytrace(int width, int height){
 	}
 
 	raytraced.create(width, height, pixels);
+
+	raytraced.flipVertically();
+
 	raytraced.saveToFile("Raytraced.png");
 
 	delete[] pixels;
 	delete[] arr;
+
+	cout<<"Done."<<endl;
 }
 
 void View::mousepress(int x, int y)

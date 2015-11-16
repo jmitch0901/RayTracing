@@ -36,3 +36,7 @@ glm::vec4 Ray::point(float t){
 	glm::vec4 tv = glm::vec4(t * v.x, t * v.y, t * v.z, 1);		//Last param???
 	return s + tv;
 }
+
+void Ray::printRayReport(){
+	cout<<"P = ("<<s.x<<","<<s.y<<","<<s.z<<") + t * ("<<v.x<<","<<v.y<<","<<v.x<<")"<<endl;
+}

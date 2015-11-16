@@ -2,6 +2,8 @@
 #define _RAY_
 
 #include <glm/glm.hpp>
+#include <string>
+#include <iostream>
 
 class Ray{
 	public:
@@ -13,6 +15,7 @@ class Ray{
 		glm::vec4 getS();
 		glm::vec4 getV();
 		glm::vec4 point(float t);
+		void printRayReport();
 
 	private:
 		glm::vec4 s, v;

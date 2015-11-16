@@ -136,7 +136,7 @@ public:
 
 		bool returnBool = false;
 		modelview.push(modelview.top());
-		modelview.top() = glm::inverse(glm::transpose(modelview.top()));
+		modelview.top() = modelview.top() * animation_transform * transform;//glm::inverse(glm::transpose(modelview.top()));
 
 		if(child!=NULL){
 			returnBool = child->intersect(R,modelview,hr);

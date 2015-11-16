@@ -9,6 +9,8 @@
 #include "Ray.h"
 #include "HitRecord.h"
 
+using namespace std;
+
 
 class LeafNode : public Node
 {
@@ -124,20 +126,27 @@ public:
 
 		if(instanceOf->getName() == "sphere"){
 		
-
+			
+			//cout<<"Got a sphere for ray tracing!"<<endl;
 			float highT,lowT,currentT; //answers
+
+			glm::mat4 inv = glm::inverse(modelview.top());
+			R.setV(inv * R.getV());
+			R.setS(inv * R.getS());
 
 			float a = R.getV().x*R.getV().x + R.getV().y*R.getV().y + R.getV().z*R.getV().z;
 			float b = 2*R.getS().x*R.getV().x + 2*R.getS().y*R.getV().y + 2*R.getS().z*R.getV().z;
-			float c = R.getS().x*R.getS().x + R.getS().y*R.getS().y + R.getS().z*R.getS().z;
+			float c = R.getS().x*R.getS().x + R.getS().y*R.getS().y + R.getS().z*R.getS().z - 1;
 
 			if(a==0){
+				//cout<<"a==0, RETURN FALSE"<<endl;
 				return false;
 			}
 
 			float determinant = b*b - 4*a*c;
 
 			if(determinant<0){
+				//cout<<"determinant<0, RETURN FALSE"<<endl;
 				return false;
 			}
 
@@ -146,6 +155,7 @@ public:
 			lowT = (-b - determinant)/(2*a);
 
 			if(lowT<0 && highT<0){
+				//cout<<"lowT<0 && highT<0, RETURN FALSE"<<endl;
 				return false;
 			}
 			
@@ -155,20 +165,23 @@ public:
 				currentT = lowT;
 			} else {
 				
-				if(lowT < highT) currentT = lowT;
-				else currentT = highT;
+				if(lowT < highT) 
+					currentT = lowT;
+				else 
+					currentT = highT;
 
 			}
 
 
 		
+			//cout<<"HIT SPHERE, RETURN TRUE"<<endl;
 			return true;
 		
 		
 		} else if(instanceOf->getName() == "box"){
 
 
-
+			return false;
 
 
 

@@ -63,7 +63,8 @@ public:
     void draw();
     void openFile(string filename);
 
-	void raytrace(int width, int height);
+	void flagForRaytrace(bool doMe);
+	
 
     void mousepress(int x,int y);
     void mousemove(int x,int y);
@@ -83,6 +84,7 @@ protected:
 private:
     //the width and height of the window
     int WINDOW_WIDTH,WINDOW_HEIGHT;
+	bool doMe;
     //IDs for locating various variables in our shaders
     //GLint projectionLocation,modelviewLocation,objectColorLocation;
 
@@ -90,6 +92,8 @@ private:
 
     //the actual projection and modelview matrices
     stack<glm::mat4> proj,modelview;
+
+	void raytrace(int width, int height);
 
 	GLint projectionLocation,modelviewLocation,normalMatrixLocation;
     GLint numLightsLocation;

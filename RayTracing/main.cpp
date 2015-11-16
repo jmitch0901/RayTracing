@@ -116,10 +116,12 @@ void processEvent(sf::Event event,sf::RenderWindow& window)
 			v.openFile(filename);
 			break;
 		case sf::Keyboard::Num1:
-			v.raytrace(width, height);
+			v.flagForRaytrace(true);
+			break;
 		default:
 			break;
 		}
+	break;
 
 	case sf::Event::Resized:
 		resize(event.size.width, event.size.height);

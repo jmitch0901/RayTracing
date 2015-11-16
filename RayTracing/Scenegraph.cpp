@@ -83,6 +83,7 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			float z = -.5f * height / tan(60.0f*3.14159f/180.0f);															  //Check range of tan() ?
 			glm::vec4 dir = glm::vec4(x-width/2,y-height/2,z,1);			//Near plane located .1f away from camera			Pixels not centered possibly?
 			Ray pixelRay(cam, dir);
+			//pixelRay.printRayReport();
 
 			//color <- raycast(R,modelview)
 			float* color;
@@ -109,15 +110,16 @@ float* Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
 	HitRecord hr;
 	float* color = new float[4];
 	bool result = closestIntersection(R, modelview, hr);
+
 	if(result){
 		//color = shade(R, hr, allLights);
 		color[0] = 1;
 		color[1] = 1;
 		color[2] = 1;
 		color[3] = 1;
-	} else{
+	} else {
 		color[0] = 0;
-		color[1] = 0;
+		color[1] = 1;
 		color[2] = 0;
 		color[3] = 1;
 	}

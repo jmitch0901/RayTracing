@@ -141,7 +141,7 @@ bool Scenegraph::closestIntersection(Ray R, stack<glm::mat4> &modelview, HitReco
 }
 
 float* Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights){
-
+	return NULL;
 }
 
 

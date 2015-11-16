@@ -1,11 +1,14 @@
 #ifndef _HIT_RECORD_
 #define _HIT_RECORD_
 
+
+#include <GL/glew.h>
+#include <cstdlib>
 #include "utils/Material.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include "utils/Texture.h"
 #include "utils/Object.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "Ray.h"
 
 

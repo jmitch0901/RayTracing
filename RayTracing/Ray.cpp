@@ -4,7 +4,7 @@ using namespace std;
 
 Ray::Ray(){
 	s = glm::vec4(0,0,0,1);
-	v = glm::vec4(0,0,1,1);
+	v = glm::vec4(0,0,1,0);
 }
 
 Ray::Ray(glm::vec4 s1, glm::vec4 v1){
@@ -33,7 +33,7 @@ glm::vec4 Ray::getV(){
 }
 
 glm::vec4 Ray::point(float t){
-	glm::vec4 tv = glm::vec4(t * v.x, t * v.y, t * v.z, 1);		//Last param???
+	glm::vec4 tv = glm::vec4(t * v.x, t * v.y, t * v.z, 0);		//Last param? non-0 for points, 0 for vectors
 	return s + tv;
 }
 

@@ -4,7 +4,7 @@
 HitRecord::HitRecord(){
 	t = -1;
 	p = glm::vec4(0,0,0,1);
-	normal = glm::vec4(0,0,0,1);
+	normal = glm::vec4(0,0,1,0);
 	texture = NULL;
 	sText = -1;
 	tText = -1;

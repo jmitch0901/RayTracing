@@ -187,34 +187,43 @@ public:
 			float tMinx, tMaxx, tMiny, tMaxy, tMinz, tMaxz;
 			//float denom;
 
-			if(abs(R.getV().x) < 0.00001f){
+			if(/*R.getV().x == 0){*/abs(R.getV().x) < 0.00001f){
 				tMinx = -1 * numeric_limits<float>::max();
 				tMaxx = numeric_limits<float>::max();
 				//cout<<"MIN X"<<tMinx<<endl;
 				//cout<<"MAX X"<<tMaxx<<endl;
 			} else{
-				tMinx = (.5f - R.getS().x) / R.getV().x;
-				tMaxx = (-.5f - R.getS().x) / R.getV().x;
+				tMinx = (-.5f - R.getS().x) / R.getV().x;
+				tMaxx = (.5f - R.getS().x) / R.getV().x;
+				if(tMinx > tMaxx){
+					swap(tMinx, tMaxx);
+				}
 			}
 
-			if(abs(R.getV().y) < 0.00001f){
+			if(/*R.getV().y == 0){*/abs(R.getV().y) < 0.00001f){
 				tMiny = -1 * numeric_limits<float>::max();
 				tMaxy = numeric_limits<float>::max();
 			    //cout<<"MIN Y"<<tMiny<<endl;
 				//cout<<"MAX Y"<<tMaxy<<endl;
 			} else{
-				tMiny = (.5f - R.getS().y) / R.getV().y;
-				tMaxy = (-.5f - R.getS().y) / R.getV().y;
+				tMiny = (-.5f - R.getS().y) / R.getV().y;
+				tMaxy = (.5f - R.getS().y) / R.getV().y;
+				if(tMiny > tMaxy){
+					swap(tMiny, tMaxy);
+				}
 			}
 
-			if(abs(R.getV().z) < 0.00001f){
+			if(/*R.getV().z == 0){*/abs(R.getV().z) < 0.00001f){
 				tMinz = -1 * numeric_limits<float>::max();
 				tMaxz = numeric_limits<float>::max();
 				//cout<<"MIN Z"<<tMinz<<endl;
 				//cout<<"MAX Z"<<tMaxz<<endl;
 			} else{
-				tMinz = (.5f - R.getS().z) / R.getV().z;
-				tMaxz = (-.5f - R.getS().z) / R.getV().z;
+				tMinz = (-.5f - R.getS().z) / R.getV().z;
+				tMaxz = (.5f - R.getS().z) / R.getV().z;
+				if(tMinz > tMaxz){
+					swap(tMinz, tMaxz);
+				}
 			}
 
 			float maxOfMins, minOfMaxs;
@@ -227,8 +236,14 @@ public:
 
 
 			//cout << "("<<maxOfMins<<","<<minOfMaxs<<")"<<endl;
+			
+			if(maxOfMins < minOfMaxs){
 
-			return maxOfMins < minOfMaxs;
+				hr.setT(maxOfMins);
+
+
+				return true;
+			}
 		} else {
 
 			cout<<"Couldn't ray-cast shape for: "<<instanceOf->getName()<<endl;
@@ -236,7 +251,7 @@ public:
 
 		}
 
-
+		return false;
 	}
 
 

@@ -81,7 +81,7 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			//Create ray R from camera through pixel (x,y)
 			glm::vec4 cam = glm::vec4(0,0,0,1);				//Camera always at 0,0,0 in view coordinates.
 			float z = -.5f * height / tan(60.0f*3.14159f/180.0f);															  //Check range of tan() ?
-			glm::vec4 dir = glm::vec4(x-width/2,y-height/2,z,1);			//Near plane located .1f away from camera			Pixels not centered possibly?
+			glm::vec4 dir = glm::vec4(x-width/2,y-height/2,z,0);			//Near plane located .1f away from camera			Pixels not centered possibly?
 			Ray pixelRay(cam, dir);
 			//pixelRay.printRayReport();
 

@@ -185,13 +185,18 @@ public:
 			R.setS(inv * R.getS());
 
 			float tMinx, tMaxx, tMiny, tMaxy, tMinz, tMaxz;
-			//float denom;
 
-			if(/*R.getV().x == 0){*/abs(R.getV().x) < 0.00001f){
+			//Check if Ray is parallel to any axis and if starting point is not within box bounds
+
+			if((R.getV().x == 0 && (R.getS().x < -.5 || R.getS().x > .5)) ||
+				(R.getV().y == 0 && (R.getS().y < -.5 || R.getS().y > .5)) ||
+				(R.getV().z == 0 && (R.getS().z < -.5 || R.getS().z > .5))){
+					return false;
+			}
+
+			if(/*R.getV().x == 0){*/abs(R.getV().x) < 0.0000001f){
 				tMinx = -1 * numeric_limits<float>::max();
 				tMaxx = numeric_limits<float>::max();
-				//cout<<"MIN X"<<tMinx<<endl;
-				//cout<<"MAX X"<<tMaxx<<endl;
 			} else{
 				tMinx = (-.5f - R.getS().x) / R.getV().x;
 				tMaxx = (.5f - R.getS().x) / R.getV().x;
@@ -200,11 +205,9 @@ public:
 				}
 			}
 
-			if(/*R.getV().y == 0){*/abs(R.getV().y) < 0.00001f){
+			if(/*R.getV().y == 0){*/abs(R.getV().y) < 0.0000001f){
 				tMiny = -1 * numeric_limits<float>::max();
 				tMaxy = numeric_limits<float>::max();
-			    //cout<<"MIN Y"<<tMiny<<endl;
-				//cout<<"MAX Y"<<tMaxy<<endl;
 			} else{
 				tMiny = (-.5f - R.getS().y) / R.getV().y;
 				tMaxy = (.5f - R.getS().y) / R.getV().y;
@@ -213,11 +216,9 @@ public:
 				}
 			}
 
-			if(/*R.getV().z == 0){*/abs(R.getV().z) < 0.00001f){
+			if(/*R.getV().z == 0){*/abs(R.getV().z) < 0.0000001f){
 				tMinz = -1 * numeric_limits<float>::max();
 				tMaxz = numeric_limits<float>::max();
-				//cout<<"MIN Z"<<tMinz<<endl;
-				//cout<<"MAX Z"<<tMaxz<<endl;
 			} else{
 				tMinz = (-.5f - R.getS().z) / R.getV().z;
 				tMaxz = (.5f - R.getS().z) / R.getV().z;

@@ -78,9 +78,9 @@ protected:
 
 private:
     Node *root;
-	float* raycast(Ray R, stack<glm::mat4> &modelview);
+	glm::vec4 raycast(Ray R, stack<glm::mat4> &modelview);
 	bool closestIntersection(Ray R, stack<glm::mat4> &modelview, HitRecord &hr);
-	float* shade(Ray R, HitRecord &hr, vector<graphics::Light> lights);
+	glm::vec4 shade(Ray R, HitRecord &hr, vector<graphics::Light> lights);
 
 	vector<graphics::Light> allLights;
 	

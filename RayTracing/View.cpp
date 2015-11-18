@@ -35,7 +35,7 @@ void View::resize(int w, int h)
     WINDOW_WIDTH = w;
     WINDOW_HEIGHT = h;
 
-	cout<<"WINDOW: "<<WINDOW_WIDTH<<" "<<WINDOW_HEIGHT<<endl;
+	//cout<<"WINDOW: "<<WINDOW_WIDTH<<" "<<WINDOW_HEIGHT<<endl;
 
     /*
      * This program uses orthographic projection. The corresponding matrix for this projection is provided by the glm function below.
@@ -235,7 +235,7 @@ void View::draw()
 	//END LIGHTING
 
 	if(doMe){
-		cout<<"WINDOW AFTER DOING ME: "<<WINDOW_WIDTH<<" "<<WINDOW_HEIGHT<<endl;
+		//cout<<"WINDOW WHEN RAY TRACING: "<<WINDOW_WIDTH<<" "<<WINDOW_HEIGHT<<endl;
 		this->raytrace(WINDOW_WIDTH,WINDOW_HEIGHT);
 		doMe=false;
 	}

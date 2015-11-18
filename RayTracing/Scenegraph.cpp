@@ -28,6 +28,9 @@ void Scenegraph::makeScenegraph(Node *r)
 
 	initAnimate();
 	vector<graphics::Light> allLights = gatherLightingObjects();
+	for(int i = 0; i < allLights.size(); i++){
+		cout << "allLights[" << i <<"]: " << endl;
+	}
 }
 
 
@@ -86,18 +89,18 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			//pixelRay.printRayReport();
 
 			//color <- raycast(R,modelview)
-			float* color;
+			//float* color;
 
-			color = raycast(pixelRay, modelview);
+			glm::vec4 color(raycast(pixelRay, modelview));
 
 			//pixel(x,y) <- color
-			pixels[count] = color[0];
-			pixels[count + 1] = color[1];
-			pixels[count + 2] = color[2];
-			pixels[count + 3] = color[3];
+			pixels[count] = color.x;
+			pixels[count + 1] = color.y;
+			pixels[count + 2] = color.z;
+			pixels[count + 3] = color.a;			//Could be color.a ?
 
-			delete[] color;
-			color = NULL;
+			//delete[] color;
+			//color = NULL;
 
 			count += 4;
 		}
@@ -106,44 +109,71 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 	return pixels;
 }
 
-float* Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
+glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
 	HitRecord hr;
-	float* color = new float[4];
+	glm::vec4 color;
 	bool result = closestIntersection(R, modelview, hr);
 
 	if(result){
-		//color = shade(R, hr, allLights);
-		color[0] = 1;
+		color = (shade(R, hr, allLights));
+		//color = glm::vec4(.5,.5,.5,1);
+		/*color[0] = 1;
 		color[1] = 1;
 		color[2] = 1;
-		color[3] = 1;
+		color[3] = 1;*/
 	} else {
-		color[0] = 0;
-		color[1] = 1;
-		color[2] = 0;
-		color[3] = 1;
+		color = glm::vec4(0,0,0,1);
 	}
 	return color;
 }
 
 bool Scenegraph::closestIntersection(Ray R, stack<glm::mat4> &modelview, HitRecord &hr){
 	
-	//bool flag = true;
-	//float t = 0;
-	/*while(flag){
-		glm::vec4 point = R.point(t);
-		if(point.z > 10000.0f){
-			return false;
-		}
-
-		t += .1f;
-
-	}*/
 	return root->intersect(R, modelview, hr);
 }
 
-float* Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights){
-	return NULL;
+glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights){
+	
+	glm::vec3 lightVec,viewVec,reflectVec;
+    glm::vec3 normalView = glm::vec3(hr.getNormal());
+    glm::vec3 ambient(glm::vec3(hr.getMaterial().getAmbient()));
+	glm::vec3 diffuse(glm::vec3(hr.getMaterial().getDiffuse()));
+	glm::vec3 specular(glm::vec3(hr.getMaterial().getSpecular()));
+    float nDotL,rDotV;
+
+    glm::vec4 fColor(0,0,0,1);
+	//glm::vec4 fColor(hr.getMaterial().getAmbient());
+    for (int i=0;i<lights.size();i++){
+        if(lights[i].getPosition().w!=0){
+            lightVec = glm::vec3(glm::normalize(lights[i].getPosition() - hr.getP()));
+		} else{
+            lightVec = glm::vec3(glm::normalize(-lights[i].getPosition()));
+		}
+
+        //glm::vec3 tNormal = glm::vec3(hr.getNormal());
+        //normalView = glm::normalize(tNormal);
+        nDotL = glm::dot(normalView,lightVec);
+
+        viewVec = glm::vec3(-1*hr.getP().x,-1*hr.getP().y,-1*hr.getP().z);
+        viewVec = glm::normalize(viewVec);
+
+        reflectVec = glm::reflect(-lightVec,normalView);
+        reflectVec = glm::normalize(reflectVec);
+
+        rDotV = max(glm::dot(reflectVec,viewVec),0.0f);
+
+        ambient = ambient * lights[i].getAmbient();
+        diffuse = diffuse * lights[i].getDiffuse() * max(nDotL,0.0f);
+        if(nDotL>0){
+            specular = specular * lights[i].getSpecular() * pow(rDotV,hr.getMaterial().getShininess());
+		} else{
+            specular = glm::vec3(0,0,0);
+		}
+
+        fColor = fColor + glm::vec4(ambient+diffuse+specular,1.0);
+    }
+	
+	return fColor;
 }
 
 

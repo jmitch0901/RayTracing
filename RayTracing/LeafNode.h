@@ -125,6 +125,9 @@ public:
 			return false;
 		}
 
+		hr.setTexture(texture);
+		
+
 		if(instanceOf->getName() == "sphere"){
 		
 			

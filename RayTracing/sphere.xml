@@ -8,7 +8,7 @@
   
   <transform>
     <set>
-     <translate>1 1 1</translate>
+     <!--<translate>1 1 1</translate>-->
       
     </set>
     <light>

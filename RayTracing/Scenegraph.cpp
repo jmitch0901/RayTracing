@@ -97,7 +97,7 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			pixels[count] = color.x;
 			pixels[count + 1] = color.y;
 			pixels[count + 2] = color.z;
-			pixels[count + 3] = color.a;			//Could be color.a ?
+			pixels[count + 3] = color.w;			//Could be color.a ?
 
 			//delete[] color;
 			//color = NULL;
@@ -142,7 +142,7 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights
     float nDotL,rDotV;
 
     glm::vec4 fColor(0,0,0,1);
-	//glm::vec4 fColor(hr.getMaterial().getAmbient());
+	
     for (int i=0;i<lights.size();i++){
         if(lights[i].getPosition().w!=0){
             lightVec = glm::vec3(glm::normalize(lights[i].getPosition() - hr.getP()));

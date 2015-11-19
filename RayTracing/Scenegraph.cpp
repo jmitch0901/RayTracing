@@ -81,8 +81,8 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 	float* pixels = new float[width * height * 4];
 	allLights = gatherLightingObjects();
 	for(int i = 0;i < allLights.size(); i++){
-		glm::vec4 tempLights = modelview.top() * allLights[i].getPosition();
-		allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
+		//glm::vec4 tempLights = modelview.top() * allLights[i].getPosition();
+		//allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
 	}
 
 	for(int y = 0; y < height; y++){
@@ -142,12 +142,12 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 	
 	glm::vec3 lightVec,viewVec,reflectVec;
     glm::vec3 normalView = glm::vec3(hr.getNormal());
-    glm::vec3 ambient(glm::vec3(hr.getMaterial().getAmbient()));
+    glm::vec3 ambient = glm::vec3(hr.getMaterial().getAmbient());
 	glm::vec3 diffuse(glm::vec3(hr.getMaterial().getDiffuse()));
-	glm::vec3 specular(glm::vec3(hr.getMaterial().getSpecular()));
+	glm::vec3 specular = glm::vec3(hr.getMaterial().getSpecular());
     float nDotL,rDotV;
 
-    glm::vec4 fColor(0,0,0,1);
+    glm::vec4 fColor(0,0,0,0);
 	
 	//allLights = gatherLightingObjects();
 	//glm::vec4 fColor(hr.getMaterial().getAmbient());
@@ -176,13 +176,19 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
         ambient = ambient * allLights[i].getAmbient();
         diffuse = diffuse * allLights[i].getDiffuse() * max(nDotL,0.0f);
 
+		//cout<<allLights[i].getSpecular().x<<", "<<allLights[i].getSpecular().y<<", "<<allLights[i].getSpecular().z<<endl;
+		
         if(nDotL>0){
-            specular = specular * allLights[i].getSpecular() * pow(rDotV,hr.getMaterial().getShininess());
+			//It is most definately something on this line.
+            specular = specular * allLights[i].getSpecular() * glm::pow(rDotV,hr.getMaterial().getShininess());
 		} else{
+			//return hr.getMaterial().getAmbient();
             specular = glm::vec3(0,0,0);
 		}
 
-        fColor = fColor + glm::vec4(ambient+diffuse+specular,1.0);
+		
+
+		fColor = fColor + glm::vec4(diffuse+ambient+specular,1.0f);
 		
 
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;

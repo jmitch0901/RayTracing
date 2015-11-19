@@ -79,6 +79,11 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 	//Load world to view in modelview
 	int count = 0;
 	float* pixels = new float[width * height * 4];
+	allLights = gatherLightingObjects();
+	for(int i = 0;i < allLights.size(); i++){
+		glm::vec4 tempLights = modelview.top() * allLights[i].getPosition();
+		allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
+	}
 
 	for(int y = 0; y < height; y++){
 		for(int x = 0; x < width; x++){
@@ -143,7 +148,7 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 
     glm::vec4 fColor(0,0,0,1);
 	
-	allLights = gatherLightingObjects();
+	//allLights = gatherLightingObjects();
 	//glm::vec4 fColor(hr.getMaterial().getAmbient());
 	for (int i=0;i<allLights.size();i++){
         if(allLights[i].getPosition().w!=0){

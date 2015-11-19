@@ -238,8 +238,8 @@ public:
 				tMinz = -1 * numeric_limits<float>::max();
 				tMaxz = numeric_limits<float>::max();
 			} else{
-				tMinz = (-.5f - R.getS().z) / R.getV().z;
-				tMaxz = (.5f - R.getS().z) / R.getV().z;
+				tMinz = (.5f - R.getS().z) / R.getV().z;
+				tMaxz = (-.5f - R.getS().z) / R.getV().z;
 				if(tMinz > tMaxz){
 					swap(tMinz, tMaxz);
 					Nzflag = true;

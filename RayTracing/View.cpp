@@ -264,6 +264,9 @@ void View::raytrace(int width, int height){
 
 	for(int i = 0; i < width*height*4; i++){
 		pixels[i] = arr[i] * 255;								//Uint8 goes from 0 - 255 ?
+
+		//if(arr[i]!=1 && arr[i] !=0)
+		//cout<<"Pixel @"<<i%4<<": "<<arr[i]<<endl;
 	}
 
 	raytraced.create(width, height, pixels);

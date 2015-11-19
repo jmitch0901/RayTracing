@@ -19,9 +19,9 @@
     </light>
     <object instanceof="box" texture="white">
       <material>
-        <ambient>1 .2 .1</ambient>
-        <diffuse>1 .1 .1</diffuse>
-        <specular>1 .1 .1</specular>
+        <ambient>.2 1 .2</ambient>
+        <diffuse>.2 1 .2</diffuse>
+        <specular>.2 1 .2</specular>
         <shininess>10</shininess>
         <absorption>0.5 </absorption>
         <reflection>0.1</reflection>

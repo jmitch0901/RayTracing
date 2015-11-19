@@ -100,9 +100,9 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			glm::vec4 color = raycast(pixelRay, modelview);
 
 			//pixel(x,y) <- color
-			pixels[count] = color.x;
-			pixels[count + 1] = color.y;
-			pixels[count + 2] = color.z;
+			pixels[count] = color.r;
+			pixels[count + 1] = color.g;
+			pixels[count + 2] = color.b;
 			pixels[count + 3] = color.a;			//Could be color.a ?
 
 			//delete[] color;
@@ -116,12 +116,13 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 }
 
 glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
+
 	HitRecord hr;
 	glm::vec4 color;
 	bool result = closestIntersection(R, modelview, hr);
 
 	if(result){
-		color = (shade(R, hr));
+		color = shade(R, hr);
 		//color = glm::vec4(.5,.5,.5,1);
 		/*color[0] = 1;
 		color[1] = 1;
@@ -157,11 +158,14 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
             lightVec = glm::vec3(glm::normalize(-allLights[i].getPosition()));
 		}
 
-        //glm::vec3 tNormal = glm::vec3(hr.getNormal());
-        //normalView = glm::normalize(tNormal);
+        glm::vec3 tNormal = glm::vec3(hr.getNormal());
+        normalView = glm::normalize(tNormal);
         nDotL = glm::dot(normalView,lightVec);
 
-        viewVec = glm::vec3(-1*hr.getP().x,-1*hr.getP().y,-1*hr.getP().z);
+
+		//Modelview.top() multiply here in vertex shader
+		viewVec = -glm::vec3(hr.getP());//-glm::vec3(hr.getP().x,hr.getP().y,hr.getP().z);
+
         viewVec = glm::normalize(viewVec);
 
         reflectVec = glm::reflect(-lightVec,normalView);

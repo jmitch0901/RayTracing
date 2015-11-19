@@ -80,7 +80,7 @@ private:
     Node *root;
 	glm::vec4 raycast(Ray R, stack<glm::mat4> &modelview);
 	bool closestIntersection(Ray R, stack<glm::mat4> &modelview, HitRecord &hr);
-	glm::vec4 shade(Ray R, HitRecord &hr, vector<graphics::Light> lights);
+	glm::vec4 shade(Ray R, HitRecord &hr);
 
 	vector<graphics::Light> allLights;
 	

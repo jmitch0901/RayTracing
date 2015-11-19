@@ -7,6 +7,7 @@ using namespace std;
 #include <glm/gtc/matrix_transform.hpp>
 #include <cmath>
 #include "utils/Light.h"
+#include <iostream>
 
 Scenegraph::Scenegraph()
 {
@@ -91,7 +92,7 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			//color <- raycast(R,modelview)
 			//float* color;
 
-			glm::vec4 color(raycast(pixelRay, modelview));
+			glm::vec4 color = raycast(pixelRay, modelview);
 
 			//pixel(x,y) <- color
 			pixels[count] = color.x;
@@ -115,7 +116,7 @@ glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
 	bool result = closestIntersection(R, modelview, hr);
 
 	if(result){
-		color = (shade(R, hr, allLights));
+		color = (shade(R, hr));
 		//color = glm::vec4(.5,.5,.5,1);
 		/*color[0] = 1;
 		color[1] = 1;
@@ -128,11 +129,10 @@ glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
 }
 
 bool Scenegraph::closestIntersection(Ray R, stack<glm::mat4> &modelview, HitRecord &hr){
-	
 	return root->intersect(R, modelview, hr);
 }
 
-glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights){
+glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 	
 	glm::vec3 lightVec,viewVec,reflectVec;
     glm::vec3 normalView = glm::vec3(hr.getNormal());
@@ -142,12 +142,14 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights
     float nDotL,rDotV;
 
     glm::vec4 fColor(0,0,0,1);
+	
+	allLights = gatherLightingObjects();
 	//glm::vec4 fColor(hr.getMaterial().getAmbient());
-    for (int i=0;i<lights.size();i++){
-        if(lights[i].getPosition().w!=0){
-            lightVec = glm::vec3(glm::normalize(lights[i].getPosition() - hr.getP()));
+	for (int i=0;i<allLights.size();i++){
+        if(allLights[i].getPosition().w!=0){
+            lightVec = glm::vec3(glm::normalize(allLights[i].getPosition() - hr.getP()));
 		} else{
-            lightVec = glm::vec3(glm::normalize(-lights[i].getPosition()));
+            lightVec = glm::vec3(glm::normalize(-allLights[i].getPosition()));
 		}
 
         //glm::vec3 tNormal = glm::vec3(hr.getNormal());
@@ -162,16 +164,25 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr, vector<graphics::Light> lights
 
         rDotV = max(glm::dot(reflectVec,viewVec),0.0f);
 
-        ambient = ambient * lights[i].getAmbient();
-        diffuse = diffuse * lights[i].getDiffuse() * max(nDotL,0.0f);
+        ambient = ambient * allLights[i].getAmbient();
+        diffuse = diffuse * allLights[i].getDiffuse() * max(nDotL,0.0f);
+
         if(nDotL>0){
-            specular = specular * lights[i].getSpecular() * pow(rDotV,hr.getMaterial().getShininess());
+            specular = specular * allLights[i].getSpecular() * pow(rDotV,hr.getMaterial().getShininess());
 		} else{
             specular = glm::vec3(0,0,0);
 		}
 
         fColor = fColor + glm::vec4(ambient+diffuse+specular,1.0);
+		
+
+		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
+
+	//Need to implement getSText and getTText
+	//hr.getTexture()->lookup(hr.getSTextCoord(), hr.getTTextCoord(),fColor.x,fColor.y,fColor.z);
+
+	
 	
 	return fColor;
 }

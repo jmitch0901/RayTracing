@@ -141,10 +141,8 @@ bool Scenegraph::closestIntersection(Ray R, stack<glm::mat4> &modelview, HitReco
 glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 	
 	glm::vec3 lightVec,viewVec,reflectVec;
-    glm::vec3 normalView = glm::vec3(hr.getNormal());
-    glm::vec3 ambient = glm::vec3(hr.getMaterial().getAmbient());
-	glm::vec3 diffuse(glm::vec3(hr.getMaterial().getDiffuse()));
-	glm::vec3 specular = glm::vec3(hr.getMaterial().getSpecular());
+   // glm::vec3 normalView = glm::vec3(hr.getNormal());
+    
     float nDotL,rDotV;
 
     glm::vec4 fColor(0,0,0,0);
@@ -152,14 +150,17 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 	//allLights = gatherLightingObjects();
 	//glm::vec4 fColor(hr.getMaterial().getAmbient());
 	for (int i=0;i<allLights.size();i++){
+
         if(allLights[i].getPosition().w!=0){
             lightVec = glm::vec3(glm::normalize(allLights[i].getPosition() - hr.getP()));
 		} else{
             lightVec = glm::vec3(glm::normalize(-allLights[i].getPosition()));
 		}
 
+		
+
         glm::vec3 tNormal = glm::vec3(hr.getNormal());
-        normalView = glm::normalize(tNormal);
+        glm::vec3 normalView = glm::normalize(tNormal);
         nDotL = glm::dot(normalView,lightVec);
 
 
@@ -172,6 +173,10 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
         reflectVec = glm::normalize(reflectVec);
 
         rDotV = max(glm::dot(reflectVec,viewVec),0.0f);
+
+		glm::vec3 ambient = glm::vec3(hr.getMaterial().getAmbient());
+		glm::vec3 diffuse = glm::vec3(hr.getMaterial().getDiffuse());
+		glm::vec3 specular = glm::vec3(hr.getMaterial().getSpecular());
 
         ambient = ambient * allLights[i].getAmbient();
         diffuse = diffuse * allLights[i].getDiffuse() * max(nDotL,0.0f);
@@ -192,10 +197,11 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 		finalColor.z = max(min(finalColor.z, 1.0f), 0.0f);
 
 		fColor = fColor + finalColor;
-		
 
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
+
+	
 
 	//Need to implement getSText and getTText
 	//hr.getTexture()->lookup(hr.getSTextCoord(), hr.getTTextCoord(),fColor.x,fColor.y,fColor.z);

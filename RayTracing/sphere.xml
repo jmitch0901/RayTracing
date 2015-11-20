@@ -12,18 +12,26 @@
       
     </set>
     <light>
-      <ambient>0.8 0.8 0.8</ambient>
-      <diffuse>0.8 0.8 0.8</diffuse>
-      <specular>0.8 0.8 0.8</specular>
+      <ambient>0.8 0.2 0.2</ambient>
+      <diffuse>0.8 0.2 0.2</diffuse>
+      <specular>0.8 0.2 0.2</specular>
+      <position>5 1 -3</position>
+    </light>
+    <light>
+      <ambient>.1 .1 .7</ambient>
+      <diffuse>.1 .1 .7</diffuse>
+      <specular>.1 .1 .7</specular>
       <position>-5 -1 3</position>
     </light>
 
-    <object instanceof="sphere" texture="white">
+   
+
+    <object instanceof="box" texture="white">
       <material>
         <ambient>.2 .8 .2</ambient>
         <diffuse>.2 .8 .2</diffuse>
         <specular>.2 .8 .2</specular>
-        <shininess>100</shininess>
+        <shininess>1</shininess>
         <absorption>0.7 </absorption>
         <reflection>0.1</reflection>
         <transparency>0.2</transparency>

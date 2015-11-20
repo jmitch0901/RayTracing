@@ -238,8 +238,8 @@ public:
 				tMinz = -1 * numeric_limits<float>::max();
 				tMaxz = numeric_limits<float>::max();
 			} else{
-				tMinz = (.5f - R.getS().z) / R.getV().z;
-				tMaxz = (-.5f - R.getS().z) / R.getV().z;
+				tMinz = (-.5f - R.getS().z) / R.getV().z;
+				tMaxz = (.5f - R.getS().z) / R.getV().z;
 				if(tMinz > tMaxz){
 					swap(tMinz, tMaxz);
 					Nzflag = true;
@@ -269,8 +269,8 @@ public:
 
 				glm::mat4 invTran = glm::transpose(glm::inverse(modelview.top()));
 
-				if(tMinx < tMiny){
-					if(tMinx < tMinz){					//One of x planes are struck by ray
+				if(tMinx > tMiny){
+					if(tMinx > tMinz){					//One of x planes are struck by ray
 						if(Nxflag){
 							//x = +.5 plane
 							hr.setNormal(glm::normalize(invTran * glm::vec4(1,0,0,0)));
@@ -288,7 +288,7 @@ public:
 						}
 					}
 				} else{
-					if(tMiny < tMinz){					//One of y planes are struck by ray
+					if(tMiny > tMinz){					//One of y planes are struck by ray
 						if(Nyflag){
 							//y = +.5 plane
 							hr.setNormal(glm::normalize(invTran * glm::vec4(0,1,0,0)));

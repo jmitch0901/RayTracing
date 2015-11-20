@@ -41,7 +41,7 @@ int mouseX,mouseY;
 int width, height, startX, startY;
 int optimalPath;
 
-string filename = "sphere.xml";
+string filename = "test_scene.xml";
 
 int main(int argc, char *argv[])
 {

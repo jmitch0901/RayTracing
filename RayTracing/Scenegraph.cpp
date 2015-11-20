@@ -198,6 +198,10 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 
 		fColor = fColor + finalColor;
 
+		fColor.x = max(min(fColor.x, 1.0f), 0.0f);
+		fColor.y = max(min(fColor.y, 1.0f), 0.0f);
+		fColor.z = max(min(fColor.z, 1.0f), 0.0f);
+
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
 

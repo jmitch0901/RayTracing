@@ -112,7 +112,7 @@
     <None Include="triangles.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="sphere.xml" />
+    <Xml Include="test_scene.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

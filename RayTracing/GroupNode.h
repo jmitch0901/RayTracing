@@ -112,11 +112,11 @@ public:
 
 	virtual bool intersect(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
 
-		bool returnBool = true;
+		bool returnBool = false;
 
 		for(int i = 0; i < children.size(); i++){
 
-			returnBool &= children[i]->intersect(R,modelview,hr);
+			returnBool |= children[i]->intersect(R,modelview,hr);
 
 		}
 

@@ -124,10 +124,7 @@ public:
 			cout<<"For Some reason, your leaf node had a null object associated with it!"<<endl;
 			return false;
 		}
-
-		hr.setTexture(texture);
 		
-
 		if(instanceOf->getName() == "sphere"){
 		
 			
@@ -176,21 +173,25 @@ public:
 
 			}
 
-			//hr.setNormal(glm::vec4(R.point(currentT).x,R.point(currentT).y,R.point(currentT).z,0));
-			glm::vec4 normInObj(glm::vec4(R.point(currentT).x,R.point(currentT).y,R.point(currentT).z,0));
-			glm::mat4 invTran = glm::transpose(glm::inverse(modelview.top()));
 
-			hr.setNormal(glm::normalize(invTran * normInObj));
+			if(hr.getT() < 0 || hr.getT() > currentT){
+				//hr.setNormal(glm::vec4(R.point(currentT).x,R.point(currentT).y,R.point(currentT).z,0));
+				glm::vec4 normInObj(glm::vec4(R.point(currentT).x,R.point(currentT).y,R.point(currentT).z,0));
+				glm::mat4 invTran = glm::transpose(glm::inverse(modelview.top()));
 
-			glm::mat4 backToTheViewture = modelview.top();
-			R.setS(backToTheViewture * R.getS());
-			R.setV(backToTheViewture * R.getV());
+				hr.setNormal(glm::normalize(invTran * normInObj));
 
-			hr.setT(currentT);
-			hr.setP(R.point(currentT));
-			hr.setMaterial(material);
+				glm::mat4 backToTheViewture = modelview.top();
+				R.setS(backToTheViewture * R.getS());
+				R.setV(backToTheViewture * R.getV());
 
-			return true;
+				hr.setT(currentT);
+				hr.setP(R.point(currentT));
+				hr.setMaterial(material);
+				return true;
+			}
+
+			return false;
 		
 		
 		} else if(instanceOf->getName() == "box"){
@@ -257,58 +258,64 @@ public:
 
 			//cout << "("<<maxOfMins<<","<<minOfMaxs<<")"<<endl;
 			
-			if(maxOfMins < minOfMaxs){
+			if(maxOfMins < minOfMaxs && maxOfMins > 0){
 
-				glm::mat4 backToTheViewture = modelview.top();
-				R.setS(backToTheViewture * R.getS());
-				R.setV(backToTheViewture * R.getV());
 
-				hr.setT(maxOfMins);
-				hr.setP(R.point(maxOfMins));
-				hr.setMaterial(material);
 
-				glm::mat4 invTran = glm::transpose(glm::inverse(modelview.top()));
+				if(hr.getT() < 0 || hr.getT() > maxOfMins){
+					glm::mat4 backToTheViewture = modelview.top();
+					R.setS(backToTheViewture * R.getS());
+					R.setV(backToTheViewture * R.getV());
 
-				if(tMinx > tMiny){
-					if(tMinx > tMinz){					//One of x planes are struck by ray
-						if(Nxflag){
-							//x = +.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(1,0,0,0)));
-						} else {
-							//x = -.5 plane							
-							hr.setNormal(glm::normalize(invTran * glm::vec4(-1,0,0,0)));
+					hr.setT(maxOfMins);
+					hr.setP(R.point(maxOfMins));
+					hr.setMaterial(material);
+
+					glm::mat4 invTran = glm::transpose(glm::inverse(modelview.top()));
+
+					if(tMinx > tMiny){
+						if(tMinx > tMinz){					//One of x planes are struck by ray
+							if(Nxflag){
+								//x = +.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(1,0,0,0)));
+							} else {
+								//x = -.5 plane							
+								hr.setNormal(glm::normalize(invTran * glm::vec4(-1,0,0,0)));
+							}
+						} else{								//One of z planes are struck by ray
+							if(Nzflag){
+								//z = +.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
+							} else{
+								//z = -.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
+							}
 						}
-					} else{								//One of z planes are struck by ray
-						if(Nzflag){
-							//z = +.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
-						} else{
-							//z = -.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
+					} else{
+						if(tMiny > tMinz){					//One of y planes are struck by ray
+							if(Nyflag){
+								//y = +.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(0,1,0,0)));
+							} else{
+								//y = -.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(0,-1,0,0)));
+							}
+						} else{								//One of z planes are struck by ray
+							if(Nzflag){
+								//z = +.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
+							} else {
+								//z = -.5 plane
+								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
+							}
 						}
 					}
-				} else{
-					if(tMiny > tMinz){					//One of y planes are struck by ray
-						if(Nyflag){
-							//y = +.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(0,1,0,0)));
-						} else{
-							//y = -.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(0,-1,0,0)));
-						}
-					} else{								//One of z planes are struck by ray
-						if(Nzflag){
-							//z = +.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
-						} else {
-							//z = -.5 plane
-							hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
-						}
-					}
-				}
 
 				
-				return true;
+					return true;
+
+				}
+
 			}
 		} else {
 

@@ -73,7 +73,7 @@
     <None Include="triangles.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="sphere.xml">
+    <Xml Include="test_scene.xml">
       <Filter>Resource Files</Filter>
     </Xml>
   </ItemGroup>

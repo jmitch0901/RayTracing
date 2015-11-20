@@ -1,0 +1,179 @@
+<scene>
+  <instance name="sphere" path="models/sphere" />
+  <instance name="box" path="models/box" />
+  <image name="checkerboard" path="resources/checkerboard.png" />
+  <image name="white" path="resources/white.png" />
+
+
+
+  <light>
+    <ambient>0.6 0.6 0.6</ambient>
+    <diffuse>0.6 0.6 0.6</diffuse>
+    <specular>0.6 0.6 0.6</specular>
+    <position>0 10 .1</position>
+  </light>
+
+
+  <!--Snowman-->
+
+
+
+  
+  
+
+    <transform>
+      <set>
+        <translate>0 1.1 0</translate>
+        <scale>.5 .5 .5</scale>
+      </set>
+
+      <group>
+        <transform>
+          <set>
+          </set>
+
+          <object instanceof="sphere" texture="white">
+            <material>
+              <ambient>.2 .2 .8</ambient>
+              <diffuse>.2 .2 .8</diffuse>
+              <specular>.2 .2 .8</specular>
+              <shininess>5</shininess>
+              <absorption>0.7 </absorption>
+              <reflection>0.1</reflection>
+              <transparency>0.2</transparency>
+              <refractive>1.2</refractive>
+            </material>
+          </object>
+        </transform>
+
+        <transform>
+          <set>
+            <translate>0 1.7 0</translate>
+            <scale>.7 .7 .7</scale>
+          </set>
+
+          <object instanceof="sphere" texture="white">
+            <material>
+              <ambient>.8 .2 .2</ambient>
+              <diffuse>.8 .2 .2</diffuse>
+              <specular>.8 .2 .2</specular>
+              <shininess>5</shininess>
+              <absorption>0.7 </absorption>
+              <reflection>0.1</reflection>
+              <transparency>0.2</transparency>
+              <refractive>1.2</refractive>
+            </material>
+          </object>
+        </transform>
+
+        <transform>
+          <set>
+            <scale>.4 .3 .4</scale>
+            <translate>0 2 0</translate>
+          </set>
+
+          <object instanceof="sphere" texture="white">
+            <material>
+              <ambient>.2 .8 .2</ambient>
+              <diffuse>.2 .8 .2</diffuse>
+              <specular>.2 .8 .2</specular>
+              <shininess>5</shininess>
+              <absorption>0.7 </absorption>
+              <reflection>0.1</reflection>
+              <transparency>0.2</transparency>
+              <refractive>1.2</refractive>
+            </material>
+          </object>
+
+        </transform>
+
+
+
+      </group>
+
+
+    
+  </transform>
+
+
+
+    <transform>
+      <set>
+        <translate>-2 .6 -2</translate>
+      </set>
+
+      <light>
+        <ambient>0.2 0.8 0.2</ambient>
+        <diffuse>0.2 0.8 0.2</diffuse>
+        <specular>0.2 0.8 0.2</specular>
+        <position>0 1 0</position>
+      </light>
+      
+      
+      <object instanceof="box" texture="white">
+        <material>
+          <ambient>.8 .8 .2</ambient>
+          <diffuse>.2 .2 .8</diffuse>
+          <specular>.2 .2 .8</specular>
+          <shininess>5</shininess>
+          <absorption>0.7 </absorption>
+          <reflection>0.1</reflection>
+          <transparency>0.2</transparency>
+          <refractive>1.2</refractive>
+        </material>
+      </object>
+    </transform>
+
+    <transform>
+      <set>
+        <translate>2 .6 2</translate>
+      </set>
+
+      <light>
+        <ambient>0.8 0.2 0.2</ambient>
+        <diffuse>0.8 0.2 0.2</diffuse>
+        <specular>0.8 0.2 0.2</specular>
+        <position>0 1 0</position>
+      </light>
+      
+      
+      <object instanceof="box" texture="white">
+        <material>
+          <ambient>.8 .2 .8</ambient>
+          <diffuse>.2 .2 .8</diffuse>
+          <specular>.2 .2 .8</specular>
+          <shininess>5</shininess>
+          <absorption>0.7 </absorption>
+          <reflection>0.1</reflection>
+          <transparency>0.2</transparency>
+          <refractive>1.2</refractive>
+        </material>
+      </object>
+    </transform>
+
+
+
+
+  <transform>
+    <set>
+      <scale>10 .1 10</scale>
+    </set>
+
+
+    <object instanceof="box" texture="white">
+      <material>
+        <ambient>.2 .8 .8</ambient>
+        <diffuse>.2 .8 .8</diffuse>
+        <specular>.2 .8 .8</specular>
+        <shininess>100</shininess>
+        <absorption>0.7 </absorption>
+        <reflection>0.1</reflection>
+        <transparency>0.2</transparency>
+        <refractive>1.2</refractive>
+      </material>
+    </object>
+
+  </transform>
+
+
+</scene>

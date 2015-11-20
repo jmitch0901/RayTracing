@@ -31,9 +31,9 @@ public:
 	{
 		this->instanceOf = instanceOf;
 		//default material
-		material.setAmbient(1.0f,0.6f,0.6f);
-		material.setDiffuse(1.0f,0.6f,0.6f);
-		material.setSpecular(0.2f,0.1f,0.1f);
+		material.setAmbient(0.0f,0.0f,0.0f);
+		material.setDiffuse(0.0f,0.0f,0.0f);
+		material.setSpecular(0.0f,0.0f,0.0f);
 		material.setShininess(1);
 
 		this->instanceOf->setMaterial(material);
@@ -274,8 +274,8 @@ public:
 						if(Nxflag){
 							//x = +.5 plane
 							hr.setNormal(glm::normalize(invTran * glm::vec4(1,0,0,0)));
-						} else{
-							//x = -.5 plane
+						} else {
+							//x = -.5 plane							
 							hr.setNormal(glm::normalize(invTran * glm::vec4(-1,0,0,0)));
 						}
 					} else{								//One of z planes are struck by ray
@@ -300,7 +300,7 @@ public:
 						if(Nzflag){
 							//z = +.5 plane
 							hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
-						} else{
+						} else {
 							//z = -.5 plane
 							hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
 						}

@@ -4,7 +4,7 @@
   <image name="checkerboard" path="resources/checkerboard.png" />
   <image name="white" path="resources/white.png" />
 
-  
+
   
   <transform>
     <set>
@@ -17,12 +17,13 @@
       <specular>0.8 0.8 0.8</specular>
       <position>-5 -1 3</position>
     </light>
+
     <object instanceof="box" texture="white">
       <material>
-        <ambient>1 .2 .1</ambient>
-        <diffuse>1 .1 .1</diffuse>
-        <specular>1 .1 .1</specular>
-        <shininess>10</shininess>
+        <ambient>.2 .9 .2</ambient>
+        <diffuse>.2 .9 .2</diffuse>
+        <specular>.2 .9 .2</specular>
+        <shininess>1</shininess>
         <absorption>0.5 </absorption>
         <reflection>0.1</reflection>
         <transparency>0.4</transparency>

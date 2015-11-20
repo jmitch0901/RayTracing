@@ -227,7 +227,7 @@ void View::draw()
 		glUniform3fv(lightLocations[i].ambientLocation,1,glm::value_ptr(gatheredLights[i].getAmbient()));
         glUniform3fv(lightLocations[i].diffuseLocation,1,glm::value_ptr(gatheredLights[i].getDiffuse()));
         glUniform3fv(lightLocations[i].specularLocation,1,glm::value_ptr(gatheredLights[i].getSpecular()));
-		glUniform4fv(lightLocations[i].positionLocation,1,glm::value_ptr(modelview.top()*gatheredLights[i].getPosition()));
+		glUniform4fv(lightLocations[i].positionLocation,1,glm::value_ptr(gatheredLights[i].getPosition())); //Removed modelView.top() multiplication
     }
 	/*if(!debugBool)
 		cout<<glGetError()<<endl;*/
@@ -264,6 +264,9 @@ void View::raytrace(int width, int height){
 
 	for(int i = 0; i < width*height*4; i++){
 		pixels[i] = arr[i] * 255;								//Uint8 goes from 0 - 255 ?
+
+		//if(arr[i]!=1 && arr[i] !=0)
+		//cout<<"Pixel @"<<i%4<<": "<<arr[i]<<endl;
 	}
 
 	raytraced.create(width, height, pixels);

@@ -18,15 +18,15 @@
       <position>-5 -1 3</position>
     </light>
 
-    <object instanceof="box" texture="white">
+    <object instanceof="sphere" texture="white">
       <material>
-        <ambient>.2 .9 .2</ambient>
-        <diffuse>.2 .9 .2</diffuse>
-        <specular>.2 .9 .2</specular>
-        <shininess>1</shininess>
-        <absorption>0.5 </absorption>
+        <ambient>.2 .8 .2</ambient>
+        <diffuse>.2 .8 .2</diffuse>
+        <specular>.2 .8 .2</specular>
+        <shininess>100</shininess>
+        <absorption>0.7 </absorption>
         <reflection>0.1</reflection>
-        <transparency>0.4</transparency>
+        <transparency>0.2</transparency>
         <refractive>1.2</refractive>
       </material>
     </object>

@@ -81,8 +81,8 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 	float* pixels = new float[width * height * 4];
 	allLights = gatherLightingObjects();
 	for(int i = 0;i < allLights.size(); i++){
-		//glm::vec4 tempLights = modelview.top() * allLights[i].getPosition();
-		//allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
+		glm::vec4 tempLights = modelview.top() * allLights[i].getPosition();
+		allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
 	}
 
 	for(int y = 0; y < height; y++){
@@ -103,7 +103,7 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			pixels[count] = color.r;
 			pixels[count + 1] = color.g;
 			pixels[count + 2] = color.b;
-			pixels[count + 3] = color.a;			//Could be color.a ?
+			pixels[count + 3] = color.w;			//Could be color.a ?
 
 			//delete[] color;
 			//color = NULL;
@@ -179,16 +179,19 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 		//cout<<allLights[i].getSpecular().x<<", "<<allLights[i].getSpecular().y<<", "<<allLights[i].getSpecular().z<<endl;
 		
         if(nDotL>0){
-			//It is most definately something on this line.
+			//It is most definitely something on this line.
             specular = specular * allLights[i].getSpecular() * glm::pow(rDotV,hr.getMaterial().getShininess());
 		} else{
 			//return hr.getMaterial().getAmbient();
             specular = glm::vec3(0,0,0);
 		}
 
-		
+		glm::vec4 finalColor(ambient+diffuse+specular,1.0f);
+		finalColor.x = max(min(finalColor.x, 1.0f), 0.0f);
+		finalColor.y = max(min(finalColor.y, 1.0f), 0.0f);
+		finalColor.z = max(min(finalColor.z, 1.0f), 0.0f);
 
-		fColor = fColor + glm::vec4(diffuse+ambient+specular,1.0f);
+		fColor = fColor + finalColor;
 		
 
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;

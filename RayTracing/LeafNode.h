@@ -155,8 +155,8 @@ public:
 			}
 
 
-			highT = (-b + determinant)/(2*a);
-			lowT = (-b - determinant)/(2*a);
+			highT = (-b + sqrt(determinant))/(2*a);
+			lowT = (-b - sqrt(determinant))/(2*a);
 
 			if(lowT<0 && highT<0){
 				//cout<<"lowT<0 && highT<0, RETURN FALSE"<<endl;

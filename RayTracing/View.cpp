@@ -227,7 +227,7 @@ void View::draw()
 		glUniform3fv(lightLocations[i].ambientLocation,1,glm::value_ptr(gatheredLights[i].getAmbient()));
         glUniform3fv(lightLocations[i].diffuseLocation,1,glm::value_ptr(gatheredLights[i].getDiffuse()));
         glUniform3fv(lightLocations[i].specularLocation,1,glm::value_ptr(gatheredLights[i].getSpecular()));
-		glUniform4fv(lightLocations[i].positionLocation,1,glm::value_ptr(gatheredLights[i].getPosition())); //Removed modelView.top() multiplication
+		glUniform4fv(lightLocations[i].positionLocation,1,glm::value_ptr(modelview.top() * gatheredLights[i].getPosition())); //Removed modelView.top() multiplication
     }
 	/*if(!debugBool)
 		cout<<glGetError()<<endl;*/

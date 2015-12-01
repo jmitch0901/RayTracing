@@ -94,7 +94,7 @@ public:
 			if(texture!=NULL){
 				
 				glEnable(GL_TEXTURE_2D);//Tell openGL don't ignore my texture mapping commands
-				glActiveTexture(GL_TEXTURE0);//Starts at 0 -> 8, can use to layer mroe textures
+				glActiveTexture(GL_TEXTURE0);//Starts at 0 -> 8, can use to layer more textures
 
 
 				glBindTexture(GL_TEXTURE_2D,texture->getTextureID());//this texture is associated with texzture 0
@@ -188,6 +188,9 @@ public:
 				hr.setT(currentT);
 				hr.setP(R.point(currentT));
 				hr.setMaterial(material);
+
+				//hr.setTexture(this->texture);
+
 				return true;
 			}
 
@@ -312,6 +315,8 @@ public:
 					}
 
 				
+					//hr.setTexture(this->texture);
+					
 					return true;
 
 				}
@@ -380,6 +385,7 @@ public:
 	{
 		//cout << "Texture set to " << tex->getName() << endl;
 		texture=tex;
+		
 	}
 
 

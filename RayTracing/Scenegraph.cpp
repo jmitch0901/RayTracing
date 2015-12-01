@@ -88,9 +88,9 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 	for(int y = 0; y < height; y++){
 		for(int x = 0; x < width; x++){
 			//Create ray R from camera through pixel (x,y)
-			glm::vec4 cam = glm::vec4(0,0,0,1);				//Camera always at 0,0,0 in view coordinates.
-			float z = -.5f * height / tan(60.0f*3.14159f/180.0f);															  //Check range of tan() ?
-			glm::vec4 dir = glm::vec4(x-width/2,y-height/2,z,0);			//Near plane located .1f away from camera			Pixels not centered possibly?
+			glm::vec4 cam = glm::vec4(0,0,0,1);		//Camera always at 0,0,0 in view coordinates.
+			float z = -.5f * height / tan(60.0f*3.14159f/180.0f);	//Check range of tan() ?
+			glm::vec4 dir = glm::vec4(x-width/2,y-height/2,z,0); //Near plane located .1f away from camera... Pixels not centered possibly?
 			Ray pixelRay(cam, dir);
 			//pixelRay.printRayReport();
 
@@ -122,12 +122,7 @@ glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
 	bool result = closestIntersection(R, modelview, hr);
 
 	if(result){
-		color = shade(R, hr);
-		//color = glm::vec4(.5,.5,.5,1);
-		/*color[0] = 1;
-		color[1] = 1;
-		color[2] = 1;
-		color[3] = 1;*/
+		color = shade(R, modelview,hr);
 	} else {
 		color = glm::vec4(0,0,0,1);
 	}
@@ -138,17 +133,44 @@ bool Scenegraph::closestIntersection(Ray R, stack<glm::mat4> &modelview, HitReco
 	return root->intersect(R, modelview, hr);
 }
 
-glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
+glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
 	
 	glm::vec3 lightVec,viewVec,reflectVec;
-   // glm::vec3 normalView = glm::vec3(hr.getNormal());
     
     float nDotL,rDotV;
 
     glm::vec4 fColor(0,0,0,0);
+
+
+	/*
+		First, determine if the pixel can even see a light
+	*/
+	bool canSeeLight = false;
+
+	for(int i = 0; i < allLights.size(); i++){
+
+		glm::vec4 tempLightVec= allLights[i].getPosition();
+
+		//Make a new ray from the pixel location to the light position.
+
+		Ray shadowRay(R.point(hr.getT()-.0000001f),tempLightVec);
+		HitRecord shadowHitRecord;
+
+		//Call (raycast?) closestIntersection() to see if it hits an object.
+		canSeeLight |= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+
+		//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
+		if(canSeeLight) break;
+	}
+
+	//At this point, if there is no light, we should stop here and return the background color.
+	//Otherwise, continue to determine what the color is...
+
+	if(canSeeLight){
+		return glm::vec4(0,0,0,1);
+	}
 	
-	//allLights = gatherLightingObjects();
-	//glm::vec4 fColor(hr.getMaterial().getAmbient());
+
 	for (int i=0;i<allLights.size();i++){
 
         if(allLights[i].getPosition().w!=0){
@@ -156,9 +178,7 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 		} else{
             lightVec = glm::vec3(glm::normalize(-allLights[i].getPosition()));
 		}
-
 		
-
         glm::vec3 tNormal = glm::vec3(hr.getNormal());
         glm::vec3 normalView = glm::normalize(tNormal);
         nDotL = glm::dot(normalView,lightVec);
@@ -184,10 +204,10 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 		//cout<<allLights[i].getSpecular().x<<", "<<allLights[i].getSpecular().y<<", "<<allLights[i].getSpecular().z<<endl;
 		
         if(nDotL>0){
-			//It is most definitely something on this line.
+
             specular = specular * allLights[i].getSpecular() * glm::pow(rDotV,hr.getMaterial().getShininess());
 		} else{
-			//return hr.getMaterial().getAmbient();
+
             specular = glm::vec3(0,0,0);
 		}
 
@@ -205,10 +225,35 @@ glm::vec4 Scenegraph::shade(Ray R, HitRecord &hr){
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
 
+
+
+
 	
 
+	/*
+		IMPLEMENT TEXTURES LATER
+	*/
 	//Need to implement getSText and getTText
-	//hr.getTexture()->lookup(hr.getSTextCoord(), hr.getTTextCoord(),fColor.x,fColor.y,fColor.z);
+	/*graphics::Texture *t = hr.getTexture();
+
+	if(t!=NULL){
+
+		float x,y,z = 1.0f;
+
+		hr.getTexture()->lookup(hr.getSTextCoord(), hr.getTTextCoord(),x,y,z);
+
+
+		fColor.x *= x;
+		fColor.y *= y;
+		fColor.z *= z;
+
+
+
+		//fColor.x = max(min(fColor.x, 1.0f), 0.0f);
+		//fColor.y = max(min(fColor.y, 1.0f), 0.0f);
+		//fColor.z = max(min(fColor.z, 1.0f), 0.0f);
+		
+	}*/
 
 	
 	

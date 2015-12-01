@@ -6,12 +6,19 @@
 
 
 
+  <light>
+    <ambient>0.6 0.6 0.6</ambient>
+    <diffuse>0.6 0.6 0.6</diffuse>
+    <specular>0.6 0.6 0.6</specular>
+    <position>-5 5 -5</position>
+  </light>
+
   <!--<light>
     <ambient>0.6 0.6 0.6</ambient>
     <diffuse>0.6 0.6 0.6</diffuse>
     <specular>0.6 0.6 0.6</specular>
-    <position>0 10 .1</position>
-  </light> -->
+    <position>-4 5 -6</position>
+  </light>-->
 
 
   <!--Snowman-->
@@ -129,12 +136,12 @@
         <translate>2 .6 2</translate>
       </set>
 
-     <light>
+     <!--<light>
         <ambient>0.8 0.2 0.2</ambient>
         <diffuse>0.8 0.2 0.2</diffuse>
         <specular>0.8 0.2 0.2</specular>
         <position>0 1 0</position>
-      </light>
+      </light>-->
       
       
       <object instanceof="box" texture="white">

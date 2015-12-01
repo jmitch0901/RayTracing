@@ -145,7 +145,7 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
 	/*
 		First, determine if the pixel can even see a light
 	*/
-	bool canSeeLight = false;
+	bool intersects = true;
 
 	for(int i = 0; i < allLights.size(); i++){
 
@@ -153,20 +153,24 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
 
 		//Make a new ray from the pixel location to the light position.
 
-		Ray shadowRay(R.point(hr.getT()-.0000001f),tempLightVec);
+		Ray shadowRay(R.point(hr.getT()-0.0000001f),tempLightVec);
 		HitRecord shadowHitRecord;
 
 		//Call (raycast?) closestIntersection() to see if it hits an object.
-		canSeeLight |= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+
+		//intersects |= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+		intersects &= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+
+		
 
 		//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
-		if(canSeeLight) break;
+		//if(intersects) break;
 	}
 
 	//At this point, if there is no light, we should stop here and return the background color.
 	//Otherwise, continue to determine what the color is...
 
-	if(canSeeLight){
+	if(intersects){
 		return glm::vec4(0,0,0,1);
 	}
 	

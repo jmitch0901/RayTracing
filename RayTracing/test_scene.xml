@@ -10,7 +10,7 @@
     <ambient>0.6 0.6 0.6</ambient>
     <diffuse>0.6 0.6 0.6</diffuse>
     <specular>0.6 0.6 0.6</specular>
-    <position>-5 5 -5</position>
+    <position>-5 5 0</position>
   </light>
 
   <!--<light>

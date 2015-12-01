@@ -231,13 +231,26 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 
 	//Reflections
 	if(bounce < 6 && hr.getMaterial().getReflection()>0){
+		
 
+		glm::vec4 refNormVec = hr.getNormal();
 
 		//It's not reflecting exactly how it should
-		Ray reflectRay(R.point(hr.getT()+.00001f),glm::reflect(R.getV(),hr.getNormal()));
+		
+		Ray reflectRay(hr.getP() + (0.000001f*refNormVec),glm::reflect(glm::normalize(R.getV()),refNormVec));
+		
+		//reflectRay.printRayReport();
 
-		fColor = hr.getMaterial().getAbsorption() * fColor + hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1);
+		fColor = fColor *   + hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1);
+
+		
+
+
 	}
+
+	/*fColor.x = max(min(fColor.x, 1.0f), 0.0f);
+		fColor.y = max(min(fColor.y, 1.0f), 0.0f);
+		fColor.z = max(min(fColor.z, 1.0f), 0.0f);*/
 
 
 	

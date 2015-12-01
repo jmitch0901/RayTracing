@@ -97,7 +97,7 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 			//color <- raycast(R,modelview)
 			//float* color;
 
-			glm::vec4 color = raycast(pixelRay, modelview);
+			glm::vec4 color = raycast(pixelRay, modelview,0);
 
 			//pixel(x,y) <- color
 			pixels[count] = color.r;
@@ -115,14 +115,14 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 	return pixels;
 }
 
-glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview){
+glm::vec4 Scenegraph::raycast(Ray R, stack<glm::mat4>& modelview, int bounce){
 
 	HitRecord hr;
 	glm::vec4 color;
 	bool result = closestIntersection(R, modelview, hr);
 
 	if(result){
-		color = shade(R, modelview,hr);
+		color = shade(R, modelview,hr,bounce);
 	} else {
 		color = glm::vec4(0,0,0,1);
 	}
@@ -133,7 +133,7 @@ bool Scenegraph::closestIntersection(Ray R, stack<glm::mat4> &modelview, HitReco
 	return root->intersect(R, modelview, hr);
 }
 
-glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
+glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int bounce){
 	
 	glm::vec3 lightVec,viewVec,reflectVec;
     
@@ -229,7 +229,15 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
 
+	//Reflections
+	if(bounce < 6 && hr.getMaterial().getReflection()>0){
 
+
+		//It's not reflecting exactly how it should
+		Ray reflectRay(R.point(hr.getT()+.00001f),glm::reflect(R.getV(),hr.getNormal()));
+
+		fColor = hr.getMaterial().getAbsorption() * fColor + hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1);
+	}
 
 
 	

@@ -45,10 +45,30 @@
               <diffuse>.2 .2 .8</diffuse>
               <specular>.2 .2 .8</specular>
               <shininess>5</shininess>
-              <absorption>0.7 </absorption>
+              <!--<absorption>0.7 </absorption>
               <reflection>0.1</reflection>
               <transparency>0.2</transparency>
-              <refractive>1.2</refractive>
+              <refractive>1.2</refractive>-->
+            </material>
+          </object>
+        </transform>
+
+        <transform>
+          <set>
+            <translate>7 .25 0</translate>
+            <scale>1 10 100</scale>
+            <rotate>45 0 1 1</rotate>
+          </set>
+          <object instanceof="box" texture="white">
+            <material>
+              <ambient>.9 .9 .9</ambient>
+              <diffuse>.9 .9 .9</diffuse>
+              <specular>.9 .9 .9</specular>
+              <shininess>5</shininess>
+              <absorption>.1</absorption>
+              <reflection>.9</reflection>
+              <!--<transparency>0.4</transparency>
+              <refractive>1.2</refractive>-->
             </material>
           </object>
         </transform>
@@ -65,10 +85,10 @@
               <diffuse>.8 .2 .2</diffuse>
               <specular>.8 .2 .2</specular>
               <shininess>5</shininess>
-              <absorption>0.7 </absorption>
+              <!--<absorption>0.7 </absorption>
               <reflection>0.1</reflection>
               <transparency>0.2</transparency>
-              <refractive>1.2</refractive>
+              <refractive>1.2</refractive>-->
             </material>
           </object>
         </transform>
@@ -85,10 +105,10 @@
               <diffuse>.2 .8 .2</diffuse>
               <specular>.2 .8 .2</specular>
               <shininess>5</shininess>
-              <absorption>0.7 </absorption>
+              <!--<absorption>0.7 </absorption>
               <reflection>0.1</reflection>
               <transparency>0.2</transparency>
-              <refractive>1.2</refractive>
+              <refractive>1.2</refractive>-->
             </material>
           </object>
 
@@ -123,10 +143,10 @@
           <diffuse>.2 .2 .8</diffuse>
           <specular>.2 .2 .8</specular>
           <shininess>5</shininess>
-          <absorption>0.7 </absorption>
+          <!--<absorption>0.7 </absorption>
           <reflection>0.1</reflection>
           <transparency>0.2</transparency>
-          <refractive>1.2</refractive>
+          <refractive>1.2</refractive>-->
         </material>
       </object>
     </transform>
@@ -150,10 +170,10 @@
           <diffuse>.2 .2 .8</diffuse>
           <specular>.2 .2 .8</specular>
           <shininess>5</shininess>
-          <absorption>0.7 </absorption>
+          <!--<absorption>0.7 </absorption>
           <reflection>0.1</reflection>
           <transparency>0.2</transparency>
-          <refractive>1.2</refractive>
+          <refractive>1.2</refractive>-->
         </material>
       </object>
     </transform>
@@ -173,10 +193,10 @@
         <diffuse>.2 .8 .8</diffuse>
         <specular>.2 .8 .8</specular>
         <shininess>100</shininess>
-        <absorption>0.7 </absorption>
+        <!--<absorption>0.7 </absorption>
         <reflection>0.1</reflection>
         <transparency>0.2</transparency>
-        <refractive>1.2</refractive>
+        <refractive>1.2</refractive>-->
       </material>
     </object>
 

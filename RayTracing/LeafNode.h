@@ -189,6 +189,7 @@ public:
 				hr.setP(R.point(currentT));
 				hr.setMaterial(material);
 
+
 				//hr.setTexture(this->texture);
 
 				return true;

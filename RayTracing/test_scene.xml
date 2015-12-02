@@ -11,15 +11,15 @@
     <ambient>0.6 0.6 0.6</ambient>
     <diffuse>0.6 0.6 0.6</diffuse>
     <specular>0.6 0.6 0.6</specular>
-    <position>0 4 0</position>
+    <position>-3 4 3</position>
   </light>
 
-  <light>
+  <!--<light>
     <ambient>0.6 0.6 0.6</ambient>
     <diffuse>0.6 0.6 0.6</diffuse>
     <specular>0.6 0.6 0.6</specular>
     <position>0 1 0</position>
-  </light>
+  </light>-->
 
   <!--<light>
     <ambient>0.6 0.6 0.6</ambient>
@@ -34,17 +34,20 @@
 
   <transform>
           <set>
-            <translate>0 2 0</translate>
-            <scale>1 1 1</scale>
+            <translate>0 1 -1.25</translate>
+            <rotate>45 1 0 0</rotate>
+            <scale>3 3 3</scale>
+            
+            
           </set>
-          <object instanceof="box" texture="earth">
+          <object instanceof="sphere" texture="white">
             <material>
               <ambient>.9 .9 .9</ambient>
               <diffuse>.9 .9 .9</diffuse>
               <specular>.9 .9 .9</specular>
               <shininess>5</shininess>
-              <absorption>1</absorption>
-              <reflection>0</reflection>
+              <absorption>.05</absorption>
+              <reflection>.95</reflection>
               <!--<transparency>0.4</transparency>
               <refractive>1.2</refractive>-->
             </material>
@@ -145,7 +148,7 @@
       </light>-->
       
       
-      <object instanceof="box" texture="white">
+      <object instanceof="box" texture="checkerboard">
         <material>
           <ambient>.8 .8 .2</ambient>
           <diffuse>.2 .2 .8</diffuse>
@@ -195,7 +198,7 @@
     </set>
 
 
-    <object instanceof="box" texture="white">
+    <object instanceof="box" texture="checkerboard">
       <material>
         <ambient>.2 .8 .8</ambient>
         <diffuse>.2 .8 .8</diffuse>

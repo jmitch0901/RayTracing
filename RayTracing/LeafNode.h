@@ -9,6 +9,7 @@
 #include "Ray.h"
 #include "HitRecord.h"
 #include <limits>
+#include <math.h>
 
 using namespace std;
 
@@ -105,9 +106,9 @@ public:
 				if(texture->getName() == "floor"){
 					//cout<<"FLOOR HIT"<<endl;
 					//instanceOf->setTextureTransform(glm::scale(glm::mat4(1.0),glm::vec3(80,80,80)));
-					glUniformMatrix4fv(scenegraph->texturematrixLocation,1,GL_FALSE,glm::value_ptr(glm::scale(glm::mat4(1.0f),glm::vec3(80,80,80))*instanceOf->getTextureTransform()));
+					glUniformMatrix4fv(scenegraph->texturematrixLocation,1,GL_FALSE,glm::value_ptr(glm::scale(glm::mat4(1.0f),glm::vec3(1,1,1))*instanceOf->getTextureTransform()));
 				} else {
-					glUniformMatrix4fv(scenegraph->texturematrixLocation,1,GL_FALSE,glm::value_ptr(glm::scale(glm::mat4(1.0f),glm::vec3(2,2,2))*instanceOf->getTextureTransform()));
+					glUniformMatrix4fv(scenegraph->texturematrixLocation,1,GL_FALSE,glm::value_ptr(glm::scale(glm::mat4(1.0f),glm::vec3(1,1,1))*instanceOf->getTextureTransform()));
 				}
 				
 			} else {
@@ -120,6 +121,8 @@ public:
 
 	virtual bool intersect(Ray R, stack<glm::mat4> &modelview,HitRecord &hr){
 
+		const double pi = 3.14159265358979323846;
+
 		if(instanceOf == NULL){
 			cout<<"For Some reason, your leaf node had a null object associated with it!"<<endl;
 			return false;
@@ -127,6 +130,8 @@ public:
 		
 		if(instanceOf->getName() == "sphere"){
 		
+			glm::vec4 prevS = R.getS();
+			glm::vec4 prevV = R.getV();
 			
 			//cout<<"Got a sphere for ray tracing!"<<endl;
 			float highT,lowT,currentT; //answers
@@ -157,6 +162,7 @@ public:
 
 			if(lowT<0 && highT<0){
 				//cout<<"lowT<0 && highT<0, RETURN FALSE"<<endl;
+
 				return false;
 			}
 			
@@ -181,16 +187,58 @@ public:
 
 				hr.setNormal(glm::normalize(invTran * normInObj));
 
-				glm::mat4 backToTheViewture = modelview.top();
-				R.setS(backToTheViewture * R.getS());
-				R.setV(backToTheViewture * R.getV());
+				glm::vec4 point = R.point(currentT);
+
+				float phi = glm::asin(point.y);
+				//float theta = 2 * glm::acos(point.x/cos(phi));
+				float theta = atan2(point.z, point.x) + pi;
+
+				float s = theta/(2.0f * pi);
+				float t = (phi + (pi/2.0f)) / pi;
+				s = 1.5 - s;
+
+				/*if(theta < pi / 2 || theta > pi * 1.5f){
+					s = s / 2;
+				} else{
+					s = s / 2 + 0.5f;
+				}*/
+				/*if(theta > 3.14159f){
+					//s = 1 - s;
+					if(theta < 3.14159 + (3.14159 / 2)){
+						//3rd quad
+						s = 1 - s;
+					} else{
+						//4th quad
+					}
+				} else{
+					s += 0.5f;
+					if(theta < 3.14159 / 2){
+						//1st quad
+					} else{
+						//2nd quad
+						s = 1 - s;
+					}
+				}*/
+				
+				//t = 1 - t;
+				
+				hr.setTextCoords(s,t);
+
+				//Check This
+				//glm::mat4 backToTheViewture = modelview.top();
+				R.setS(prevS);
+				R.setV(prevV);
 
 				hr.setT(currentT);
 				hr.setP(R.point(currentT));
 				hr.setMaterial(material);
 
 
-				//hr.setTexture(this->texture);
+				hr.setTexture(this->texture);
+				//set S and T value
+
+				
+
 
 				return true;
 			}

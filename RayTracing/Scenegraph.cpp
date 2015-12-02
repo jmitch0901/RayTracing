@@ -229,21 +229,23 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
 
-	fColor = fColor * hr.getMaterial().getAbsorption();
+	//fColor = fColor * hr.getMaterial().getAbsorption();
 
 	//Reflections
-	if(bounce < 5 && hr.getMaterial().getReflection()>0){
+	//if(bounce < 5 && hr.getMaterial().getReflection()>0){
 
-		//It's not reflecting exactly how it should
-		
-		Ray reflectRay((hr.getP() +0.00001f),glm::reflect(glm::normalize(R.getV()),-hr.getNormal()));
-		
-		//reflectRay.printRayReport();
+	//	//It's not reflecting exactly how it should
+	//	
+	//	
+	//	Ray reflectRay(hr.getP() + (hr.getNormal() * 0.000001f),glm::reflect(glm::normalize(R.getV()),hr.getNormal()));
+	//	
+	//	//reflectRay.printRayReport();
+	//	
+	//	fColor = fColor + (hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1));
+	//	
 
-		fColor = fColor + hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1);
-
-		//cout<<"Reflected Color: "<<fColor.r<<", "<<fColor.g<<", "<<fColor.b<<endl;
-	}
+	//	//cout<<"Reflected Color: "<<fColor.r<<", "<<fColor.g<<", "<<fColor.b<<endl;
+	//}
 
 	fColor.x = max(min(fColor.x, 1.0f), 0.0f);
 	fColor.y = max(min(fColor.y, 1.0f), 0.0f);
@@ -256,26 +258,17 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 		IMPLEMENT TEXTURES LATER
 	*/
 	//Need to implement getSText and getTText
-	/*graphics::Texture *t = hr.getTexture();
+	graphics::Texture *t = hr.getTexture();
 
 	if(t!=NULL){
 
-		float x,y,z = 1.0f;
-
-		hr.getTexture()->lookup(hr.getSTextCoord(), hr.getTTextCoord(),x,y,z);
-
-
-		fColor.x *= x;
-		fColor.y *= y;
-		fColor.z *= z;
-
-
+		t->lookup(hr.getSTextCoord(),hr.getTTextCoord(),fColor.r,fColor.g,fColor.b);
 
 		//fColor.x = max(min(fColor.x, 1.0f), 0.0f);
 		//fColor.y = max(min(fColor.y, 1.0f), 0.0f);
 		//fColor.z = max(min(fColor.z, 1.0f), 0.0f);
 		
-	}*/
+	}
 
 	
 	

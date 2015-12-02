@@ -20,7 +20,7 @@ HitRecord::HitRecord(float t1, glm::vec4 p1, glm::vec4 normal1, graphics::Materi
 	tText = -1;
 }
 
-HitRecord::HitRecord(float t1, glm::vec4 p1, glm::vec4 normal1, graphics::Material material1, int sText1, int tText1, graphics::Texture *texture1){
+HitRecord::HitRecord(float t1, glm::vec4 p1, glm::vec4 normal1, graphics::Material material1, float sText1, float tText1, graphics::Texture *texture1){
 	t = t1;
 	p = p1;
 	normal = normal1;
@@ -50,7 +50,7 @@ void HitRecord::setMaterial(graphics::Material material1){
 	material = material1;
 }
 
-void HitRecord::setTextCoords(int sText1, int tText1){
+void HitRecord::setTextCoords(float sText1, float tText1){
 	sText = sText1;
 	tText = tText1;
 }
@@ -75,11 +75,11 @@ graphics::Material HitRecord::getMaterial(){
 	return material;
 }
 
-int HitRecord::getSTextCoord(){
+float HitRecord::getSTextCoord(){
 	return sText;
 }
 
-int HitRecord::getTTextCoord(){
+float HitRecord::getTTextCoord(){
 	return tText;
 }
 

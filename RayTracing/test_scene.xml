@@ -3,6 +3,7 @@
   <instance name="box" path="models/box" />
   <image name="checkerboard" path="resources/checkerboard.png" />
   <image name="white" path="resources/white.png" />
+  <image name="earth" path="resources/earthmap.png" />
 
 
 
@@ -24,11 +25,29 @@
   <!--Snowman-->
 
 
+  <transform>
+          <set>
+            <translate>0 1 0</translate>
+            <scale>1 1 1</scale>
+          </set>
+          <object instanceof="sphere" texture="earth">
+            <material>
+              <ambient>.9 .9 .9</ambient>
+              <diffuse>.9 .9 .9</diffuse>
+              <specular>.9 .9 .9</specular>
+              <shininess>5</shininess>
+              <absorption>1</absorption>
+              <reflection>0</reflection>
+              <!--<transparency>0.4</transparency>
+              <refractive>1.2</refractive>-->
+            </material>
+          </object>
+        </transform>
 
   
   
 
-    <transform>
+    <!--<transform>
       <set>
         <translate>0 1.1 0</translate>
         <scale>.5 .5 .5</scale>
@@ -53,25 +72,7 @@
           </object>
         </transform>
 
-        <transform>
-          <set>
-            <translate>3.5 .5 -3.5</translate>
-            <scale>2 2 2</scale>
-            <!--<rotate>45 0 1 1</rotate>-->
-          </set>
-          <object instanceof="sphere" texture="white">
-            <material>
-              <ambient>.9 .9 .9</ambient>
-              <diffuse>.9 .9 .9</diffuse>
-              <specular>.9 .9 .9</specular>
-              <shininess>5</shininess>
-              <absorption>.1</absorption>
-              <reflection>.9</reflection>
-              <!--<transparency>0.4</transparency>
-              <refractive>1.2</refractive>-->
-            </material>
-          </object>
-        </transform>
+        
 
         <transform>
           <set>
@@ -108,7 +109,7 @@
               <absorption>1</absorption>
               <reflection>0</reflection>
               <transparency>0</transparency>
-              <refractive>1.2</refractive>-->
+              <refractive>1.2</refractive>
             </material>
           </object>
 
@@ -120,7 +121,7 @@
 
 
     
-  </transform>
+  </transform>-->
 
 
 

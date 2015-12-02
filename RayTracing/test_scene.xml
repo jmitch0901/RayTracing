@@ -27,8 +27,8 @@
 
   <transform>
           <set>
-            <translate>0 1 0</translate>
-            <scale>1 1 1</scale>
+            <translate>0 0 0</translate>
+            <scale>100 100 100</scale>
           </set>
           <object instanceof="box" texture="earth">
             <material>

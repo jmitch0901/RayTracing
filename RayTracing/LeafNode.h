@@ -285,9 +285,13 @@ public:
 
 			//cout << "("<<maxOfMins<<","<<minOfMaxs<<")"<<endl;
 			
-			if(maxOfMins < minOfMaxs && maxOfMins > 0){
+			if(maxOfMins < minOfMaxs /*&& maxOfMins > 0*/){
 
-
+				if(maxOfMins < 0 && minOfMaxs > 0){
+					maxOfMins = minOfMaxs;
+				} else if(maxOfMins < 0){
+					return false;
+				}
 
 				if(hr.getT() < 0 || hr.getT() > maxOfMins){
 
@@ -382,7 +386,6 @@ public:
 					}
 					
 					return true;
-
 				}
 
 			}

@@ -196,31 +196,6 @@ public:
 				float s = theta/(2.0f * pi);
 				float t = (phi + (pi/2.0f)) / pi;
 				s = 1.5 - s;
-
-				/*if(theta < pi / 2 || theta > pi * 1.5f){
-					s = s / 2;
-				} else{
-					s = s / 2 + 0.5f;
-				}*/
-				/*if(theta > 3.14159f){
-					//s = 1 - s;
-					if(theta < 3.14159 + (3.14159 / 2)){
-						//3rd quad
-						s = 1 - s;
-					} else{
-						//4th quad
-					}
-				} else{
-					s += 0.5f;
-					if(theta < 3.14159 / 2){
-						//1st quad
-					} else{
-						//2nd quad
-						s = 1 - s;
-					}
-				}*/
-				
-				//t = 1 - t;
 				
 				hr.setTextCoords(s,t);
 
@@ -315,6 +290,10 @@ public:
 
 
 				if(hr.getT() < 0 || hr.getT() > maxOfMins){
+
+
+					glm::vec4 point = R.point(maxOfMins);
+
 					glm::mat4 backToTheViewture = modelview.top();
 					R.setS(backToTheViewture * R.getS());
 					R.setV(backToTheViewture * R.getV());
@@ -325,21 +304,27 @@ public:
 
 					glm::mat4 invTran = glm::transpose(glm::inverse(modelview.top()));
 
+					int face = -1;
+
 					if(tMinx > tMiny){
 						if(tMinx > tMinz){					//One of x planes are struck by ray
 							if(Nxflag){
 								//x = +.5 plane
+								face = 0;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(1,0,0,0)));
 							} else {
-								//x = -.5 plane							
+								//x = -.5 plane	
+								face = 1;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(-1,0,0,0)));
 							}
 						} else{								//One of z planes are struck by ray
 							if(Nzflag){
 								//z = +.5 plane
+								face = 2;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
 							} else{
 								//z = -.5 plane
+								face = 3;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
 							}
 						}
@@ -347,24 +332,54 @@ public:
 						if(tMiny > tMinz){					//One of y planes are struck by ray
 							if(Nyflag){
 								//y = +.5 plane
+								face = 4;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(0,1,0,0)));
 							} else{
 								//y = -.5 plane
+								face = 5;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(0,-1,0,0)));
 							}
 						} else{								//One of z planes are struck by ray
 							if(Nzflag){
 								//z = +.5 plane
+								face = 2;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,1,0)));
 							} else {
 								//z = -.5 plane
+								face = 3;
 								hr.setNormal(glm::normalize(invTran * glm::vec4(0,0,-1,0)));
 							}
 						}
 					}
 
 				
-					//hr.setTexture(this->texture);
+					hr.setTexture(this->texture);
+					
+					
+
+					switch(face){
+						case 0:
+							hr.setTextCoords(0.5f-point.z,point.y+0.5f);
+						break;
+						case 1:
+							hr.setTextCoords(0.5f+point.z,point.y+0.5f);
+						break;
+						case 2:
+							hr.setTextCoords(0.5f-point.x,point.y+0.5f);
+						break;
+						case 3:
+							hr.setTextCoords(point.x+0.5f,point.y+0.5f);
+						break;
+						case 4:
+							hr.setTextCoords(point.x+0.5f,point.z+0.5f);
+						break;
+						case 5:
+							hr.setTextCoords(point.x+0.5f,0.5f-point.z);
+						break;
+
+
+
+					}
 					
 					return true;
 

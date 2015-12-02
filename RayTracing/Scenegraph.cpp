@@ -216,6 +216,7 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 		}
 
 		glm::vec4 Ca(ambient+diffuse+specular,1.0f);
+
 		Ca.x = max(min(Ca.x, 1.0f), 0.0f);
 		Ca.y = max(min(Ca.y, 1.0f), 0.0f);
 		Ca.z = max(min(Ca.z, 1.0f), 0.0f);
@@ -262,11 +263,17 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 
 	if(t!=NULL){
 
-		t->lookup(hr.getSTextCoord(),hr.getTTextCoord(),fColor.r,fColor.g,fColor.b);
+		float r,g,b = 0.0f;
 
-		//fColor.x = max(min(fColor.x, 1.0f), 0.0f);
-		//fColor.y = max(min(fColor.y, 1.0f), 0.0f);
-		//fColor.z = max(min(fColor.z, 1.0f), 0.0f);
+		t->lookup(hr.getSTextCoord(),hr.getTTextCoord(),r,g,b);
+
+		fColor.r = (fColor.r * r);
+		fColor.g = (fColor.g * g);
+		fColor.b = (fColor.b * b);
+
+		fColor.x = max(min(fColor.x, 1.0f), 0.0f);
+		fColor.y = max(min(fColor.y, 1.0f), 0.0f);
+		fColor.z = max(min(fColor.z, 1.0f), 0.0f);
 		
 	}
 

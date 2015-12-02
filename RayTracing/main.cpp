@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
 	contextSettings.minorVersion = 0;
 
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode(800, 800), "Scenegraph Viewer", sf::Style::Default, contextSettings);
-	resize(800,800);
+    sf::RenderWindow window(sf::VideoMode(600, 600), "Scenegraph Viewer", sf::Style::Default, contextSettings);
+	resize(600,600);
   //  window.setVerticalSyncEnabled(true);
 
     // Make it the active window for OpenGL calls

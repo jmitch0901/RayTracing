@@ -145,34 +145,34 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 	/*
 		First, determine if the pixel can even see a light
 	*/
-	bool intersects = true;
+	//bool intersects = true;
 
-	for(int i = 0; i < allLights.size(); i++){
+	//for(int i = 0; i < allLights.size(); i++){
 
-		glm::vec4 tempLightVec= allLights[i].getPosition();
+	//	glm::vec4 tempLightVec= allLights[i].getPosition();
 
-		//Make a new ray from the pixel location to the light position.
+	//	//Make a new ray from the pixel location to the light position.
 
-		Ray shadowRay(R.point(hr.getT()-0.0000001f),tempLightVec);
-		HitRecord shadowHitRecord;
+	//	Ray shadowRay(R.point(hr.getT()-0.0000001f),tempLightVec);
+	//	HitRecord shadowHitRecord;
 
-		//Call (raycast?) closestIntersection() to see if it hits an object.
+	//	//Call (raycast?) closestIntersection() to see if it hits an object.
 
-		//intersects |= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
-		intersects &= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+	//	//intersects |= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+	//	intersects &= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
 
-		
+	//	
 
-		//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
-		//if(intersects) break;
-	}
+	//	//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
+	//	//if(intersects) break;
+	//}
 
-	//At this point, if there is no light, we should stop here and return the background color.
-	//Otherwise, continue to determine what the color is...
+	////At this point, if there is no light, we should stop here and return the background color.
+	////Otherwise, continue to determine what the color is...
 
-	if(intersects){
-		return glm::vec4(0,0,0,1);
-	}
+	//if(intersects){
+	//	return glm::vec4(0,0,0,1);
+	//}
 	
 
 	for (int i=0;i<allLights.size();i++){
@@ -215,12 +215,12 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
             specular = glm::vec3(0,0,0);
 		}
 
-		glm::vec4 finalColor(ambient+diffuse+specular,1.0f);
-		finalColor.x = max(min(finalColor.x, 1.0f), 0.0f);
-		finalColor.y = max(min(finalColor.y, 1.0f), 0.0f);
-		finalColor.z = max(min(finalColor.z, 1.0f), 0.0f);
+		glm::vec4 Ca(ambient+diffuse+specular,1.0f);
+		Ca.x = max(min(Ca.x, 1.0f), 0.0f);
+		Ca.y = max(min(Ca.y, 1.0f), 0.0f);
+		Ca.z = max(min(Ca.z, 1.0f), 0.0f);
 
-		fColor = fColor + finalColor;
+		fColor = fColor + Ca;
 
 		fColor.x = max(min(fColor.x, 1.0f), 0.0f);
 		fColor.y = max(min(fColor.y, 1.0f), 0.0f);
@@ -229,28 +229,25 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 		//cout<<"fColor"<<fColor.x<<", "<<fColor.y<<", "<<fColor.z<<", "<<fColor.w<<endl;
     }
 
-	//Reflections
-	if(bounce < 6 && hr.getMaterial().getReflection()>0){
-		
+	fColor = fColor * hr.getMaterial().getAbsorption();
 
-		glm::vec4 refNormVec = hr.getNormal();
+	//Reflections
+	if(bounce < 5 && hr.getMaterial().getReflection()>0){
 
 		//It's not reflecting exactly how it should
 		
-		Ray reflectRay(hr.getP() + (0.000001f*refNormVec),glm::reflect(glm::normalize(R.getV()),refNormVec));
+		Ray reflectRay((hr.getP() +0.00001f),glm::reflect(glm::normalize(R.getV()),-hr.getNormal()));
 		
 		//reflectRay.printRayReport();
 
-		fColor = fColor *   + hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1);
+		fColor = fColor + hr.getMaterial().getReflection() * raycast(reflectRay,modelview,bounce+1);
 
-		
-
-
+		//cout<<"Reflected Color: "<<fColor.r<<", "<<fColor.g<<", "<<fColor.b<<endl;
 	}
 
-	/*fColor.x = max(min(fColor.x, 1.0f), 0.0f);
-		fColor.y = max(min(fColor.y, 1.0f), 0.0f);
-		fColor.z = max(min(fColor.z, 1.0f), 0.0f);*/
+	fColor.x = max(min(fColor.x, 1.0f), 0.0f);
+	fColor.y = max(min(fColor.y, 1.0f), 0.0f);
+	fColor.z = max(min(fColor.z, 1.0f), 0.0f);
 
 
 	

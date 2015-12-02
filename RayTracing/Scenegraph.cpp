@@ -139,43 +139,59 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
     
     float nDotL,rDotV;
 
-    glm::vec4 fColor(0,0,0,0);
+    glm::vec4 fColor(0,0,0,1);
 
 
 	/*
 		First, determine if the pixel can even see a light
 	*/
-	//bool intersects = true;
+	bool intersects = true;
+	vector<bool> lightVisible;
 
-	//for(int i = 0; i < allLights.size(); i++){
+	for(int i = 0; i < allLights.size(); i++){
 
-	//	glm::vec4 tempLightVec= allLights[i].getPosition();
+		glm::vec4 tempLightVec= allLights[i].getPosition();
 
-	//	//Make a new ray from the pixel location to the light position.
+		//Make a new ray from the pixel location to the light position.
 
-	//	Ray shadowRay(R.point(hr.getT()-0.0000001f),tempLightVec);
-	//	HitRecord shadowHitRecord;
+		Ray shadowRay(R.point(hr.getT()-0.0000001f),tempLightVec);
+		HitRecord shadowHitRecord;
 
-	//	//Call (raycast?) closestIntersection() to see if it hits an object.
+		//glm::vec4 lightT = (tempLightVec - shadowRay.getS())/shadowRay.getV();
 
-	//	//intersects |= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
-	//	intersects &= this->closestIntersection(shadowRay,modelview,shadowHitRecord);
+		float d = -(tempLightVec.x + tempLightVec.y + tempLightVec.z);
+		float t = -(shadowRay.getS().x + shadowRay.getS().y + shadowRay.getS().z + d)/(tempLightVec.x + tempLightVec.y + tempLightVec.z);
 
-	//	
 
-	//	//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
-	//	//if(intersects) break;
-	//}
 
-	////At this point, if there is no light, we should stop here and return the background color.
-	////Otherwise, continue to determine what the color is...
+		//intersects  &=  (this->closestIntersection(shadowRay,modelview,shadowHitRecord) && t > hr.getT());
+		bool hit = this->closestIntersection(shadowRay,modelview,shadowHitRecord);
 
-	//if(intersects){
-	//	return glm::vec4(0,0,0,1);
-	//}
+		//intersects &= hit;
+
+		if((t < shadowHitRecord.getT() && hit) || !hit){
+
+			lightVisible.push_back(true);
+
+		} else{
+
+			lightVisible.push_back(false);
+		}
+
+		//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
+		//if(intersects) break;
+	}
+
+	//At this point, if there is no light, we should stop here and return the background color.
+	//Otherwise, continue to determine what the color is...
+
+	/*if(intersects){
+		return glm::vec4(0,0,0,1);
+	}*/
 	
 
 	for (int i=0;i<allLights.size();i++){
+		if(!lightVisible[i]) continue;
 
         if(allLights[i].getPosition().w!=0){
             lightVec = glm::vec3(glm::normalize(allLights[i].getPosition() - hr.getP()));

@@ -11,7 +11,14 @@
     <ambient>0.6 0.6 0.6</ambient>
     <diffuse>0.6 0.6 0.6</diffuse>
     <specular>0.6 0.6 0.6</specular>
-    <position>-5 5 0</position>
+    <position>0 4 0</position>
+  </light>
+
+  <light>
+    <ambient>0.6 0.6 0.6</ambient>
+    <diffuse>0.6 0.6 0.6</diffuse>
+    <specular>0.6 0.6 0.6</specular>
+    <position>0 1 0</position>
   </light>
 
   <!--<light>
@@ -27,8 +34,8 @@
 
   <transform>
           <set>
-            <translate>0 0 0</translate>
-            <scale>100 100 100</scale>
+            <translate>0 2 0</translate>
+            <scale>1 1 1</scale>
           </set>
           <object instanceof="box" texture="earth">
             <material>

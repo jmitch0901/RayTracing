@@ -85,8 +85,8 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 		allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
 	}
 
-	for(int y = height/2; y < height; y++){
-		for(int x = width/2; x < width; x++){
+	for(int y = 0; y < height; y++){
+		for(int x = 0; x < width; x++){
 			//Create ray R from camera through pixel (x,y)
 			glm::vec4 cam = glm::vec4(0,0,0,1);		//Camera always at 0,0,0 in view coordinates.
 			float z = -.5f * height / tan(60.0f*3.14159f/180.0f);	//Check range of tan() ?
@@ -145,52 +145,52 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 	/*
 		First, determine if the pixel can even see a light
 	*/
-	//bool intersects = true;
-	////vector<bool> lightVisible;
+	bool intersects = true;
+	//vector<bool> lightVisible;
 
-	//for(int i = 0; i < allLights.size(); i++){
+	for(int i = 0; i < allLights.size(); i++){
 
-	//	glm::vec4 tempLightVec= allLights[i].getPosition();
+		glm::vec4 tempLightVec= allLights[i].getPosition();
 
-	//	//Make a new ray from the pixel location to the light position.
+		//Make a new ray from the pixel location to the light position.
 
-	//	Ray shadowRay(R.point(hr.getT()-0.0000001f),tempLightVec);
-	//	HitRecord shadowHitRecord;
+		Ray shadowRay(R.point(hr.getT()-0.001f),tempLightVec);
+		HitRecord shadowHitRecord;
 
-	//	//glm::vec4 lightT = (tempLightVec - shadowRay.getS())/shadowRay.getV();
+		//glm::vec4 lightT = (tempLightVec - shadowRay.getS())/shadowRay.getV();
 
-	//	//float d = -(tempLightVec.x + tempLightVec.y + tempLightVec.z);
-	//	//float t = -(shadowRay.getS().x + shadowRay.getS().y + shadowRay.getS().z + d)/(tempLightVec.x + tempLightVec.y + tempLightVec.z);
+		//float d = -(tempLightVec.x + tempLightVec.y + tempLightVec.z);
+		//float t = -(shadowRay.getS().x + shadowRay.getS().y + shadowRay.getS().z + d)/(tempLightVec.x + tempLightVec.y + tempLightVec.z);
 
-	//
+	
 
 
 
-	//	//intersects  &=  (this->closestIntersection(shadowRay,modelview,shadowHitRecord) && t > hr.getT());
-	//	intersects &= (this->closestIntersection(shadowRay,modelview,shadowHitRecord) /*&& t<=hr.getT()*/);
+		//intersects  &=  (this->closestIntersection(shadowRay,modelview,shadowHitRecord) && t > hr.getT());
+		intersects &= (this->closestIntersection(shadowRay,modelview,shadowHitRecord) /*&& t<=hr.getT()*/);
 
-	//	
-	//	
+		
+		
 
-	//	/*if((t < shadowHitRecord.getT() && hit) || !hit){
+		/*if((t < shadowHitRecord.getT() && hit) || !hit){
 
-	//		lightVisible.push_back(true);
+			lightVisible.push_back(true);
 
-	//	} else{
+		} else{
 
-	//		lightVisible.push_back(false);
-	//	}*/
+			lightVisible.push_back(false);
+		}*/
 
-	//	//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
-	//	//if(intersects) break;
-	//}
+		//If it does, let canSeeLight remain false, otherwise set it to true and break out of loop.
+		//if(intersects) break;
+	}
 
-	////At this point, if there is no light, we should stop here and return the background color.
-	////Otherwise, continue to determine what the color is...
+	//At this point, if there is no light, we should stop here and return the background color.
+	//Otherwise, continue to determine what the color is...
 
-	//if(intersects){
-	//	return glm::vec4(0,0,0,1);
-	//}
+	if(intersects){
+		return glm::vec4(0,0,0,1);
+	}
 	
 
 	for (int i=0;i<allLights.size();i++){
@@ -255,12 +255,22 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 	if(bounce < 5 && hr.getMaterial().getReflection()>0){
 
 		//It's not reflecting exactly how it should
-		glm::vec4 reflectVec = glm::reflect(glm::normalize(R.getV()),glm::normalize(hr.getNormal()));
+		glm::vec4 reflectVec =  glm::reflect(glm::normalize(R.getV()),glm::normalize(hr.getNormal()));
+		reflectVec.z = -1.0f * reflectVec.z;//THIS
+		reflectVec.w = 0.0f;//THIS
 
 		glm::vec4 reflectP = hr.getP();
-		glm::vec4 fudgeVec = reflectVec * 0.01f;
 		
-		Ray reflectRay(reflectP/*+ reflectVec * 0.1f*/,reflectVec);
+		glm::vec4 fudgeVec = reflectVec * 0.01f;
+		fudgeVec.w = 0.0f;//THIS
+
+		
+		
+		
+		
+		Ray reflectRay(reflectP + fudgeVec,reflectVec);
+
+		
 		
 		//reflectRay.printRayReport();
 

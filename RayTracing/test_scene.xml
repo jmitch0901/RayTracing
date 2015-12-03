@@ -39,11 +39,8 @@
     
   <transform>
           <set>
-            <translate>0 1 -1.25</translate>
-            <rotate>45 1 0 0</rotate>
-            <scale>3 3 3</scale>
-            
-            
+            <translate>0 1.5 -1.25</translate>
+            <scale>3 3 3</scale>         
           </set>
           <object instanceof="sphere" texture="white">
             <material>
@@ -51,8 +48,8 @@
               <diffuse>.9 .9 .9</diffuse>
               <specular>.9 .9 .9</specular>
               <shininess>5</shininess>
-              <absorption>.05</absorption>
-              <reflection>.95</reflection>
+              <absorption>.1</absorption>
+              <reflection>.9</reflection>
               <!--<transparency>0.4</transparency>
               <refractive>1.2</refractive>-->
             </material>
@@ -63,7 +60,7 @@
   
   
 
-    <!--<transform>
+    <transform>
       <set>
         <translate>0 1.1 0</translate>
         <scale>.5 .5 .5</scale>
@@ -137,7 +134,7 @@
 
 
     
-  </transform>-->
+  </transform>
 
 
 
@@ -146,12 +143,12 @@
         <translate>-2 .6 -2</translate>
       </set>
 
-      <!--<light>
+      <light>
         <ambient>0.2 0.8 0.2</ambient>
         <diffuse>0.2 0.8 0.2</diffuse>
         <specular>0.2 0.8 0.2</specular>
         <position>0 1 0</position>
-      </light>-->
+      </light>
       
       
       <object instanceof="box" texture="checkerboard">

@@ -7,12 +7,7 @@
 
 
 
-  <light>
-    <ambient>0.6 0.6 0.6</ambient>
-    <diffuse>0.6 0.6 0.6</diffuse>
-    <specular>0.6 0.6 0.6</specular>
-    <position>-3 4 3</position>
-  </light>
+  
 
   <!--<light>
     <ambient>0.6 0.6 0.6</ambient>
@@ -32,6 +27,16 @@
   <!--Snowman-->
 
 
+  <group>
+
+    <light>
+      <ambient>0.6 0.6 0.6</ambient>
+      <diffuse>0.6 0.6 0.6</diffuse>
+      <specular>0.6 0.6 0.6</specular>
+      <position>0 0 0</position>
+    </light>
+    
+    
   <transform>
           <set>
             <translate>0 1 -1.25</translate>
@@ -54,6 +59,7 @@
           </object>
         </transform>
 
+  </group>
   
   
 

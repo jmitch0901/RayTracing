@@ -85,8 +85,8 @@ float* Scenegraph::raytrace(int width, int height, stack<glm::mat4> &modelview){
 		allLights[i].setPosition(tempLights.x, tempLights.y, tempLights.z);
 	}
 
-	for(int y = 0; y < height; y++){
-		for(int x = 0; x < width; x++){
+	for(int y = height/2; y < height; y++){
+		for(int x = width/2; x < width; x++){
 			//Create ray R from camera through pixel (x,y)
 			glm::vec4 cam = glm::vec4(0,0,0,1);		//Camera always at 0,0,0 in view coordinates.
 			float z = -.5f * height / tan(60.0f*3.14159f/180.0f);	//Check range of tan() ?
@@ -256,14 +256,17 @@ glm::vec4 Scenegraph::shade(Ray R, stack<glm::mat4> &modelview,HitRecord &hr,int
 
 		//It's not reflecting exactly how it should
 		glm::vec4 reflectVec = glm::reflect(glm::normalize(R.getV()),glm::normalize(hr.getNormal()));
-		//const float fudge = 0.01f;
-		//glm::vec4 fudgeVec = glm::vec4(fudge,fudge,fudge,0.0f);
+
+		glm::vec4 reflectP = hr.getP();
+		glm::vec4 fudgeVec = reflectVec * 0.01f;
 		
-		Ray reflectRay(hr.getP() + reflectVec * 0.01f,reflectVec);
+		Ray reflectRay(reflectP/*+ reflectVec * 0.1f*/,reflectVec);
 		
 		//reflectRay.printRayReport();
+
+		glm::vec4 rayCastedColor = raycast(reflectRay,modelview,bounce+1);
 		
-		fColor = fColor + (raycast(reflectRay,modelview,bounce+1) * hr.getMaterial().getReflection());
+		fColor = fColor + rayCastedColor * hr.getMaterial().getReflection();///*fColor +*/ (raycast(reflectRay,modelview,bounce+1)); /* hr.getMaterial().getReflection())*/
 		
 
 		//cout<<"Reflected Color: "<<fColor.r<<", "<<fColor.g<<", "<<fColor.b<<endl;

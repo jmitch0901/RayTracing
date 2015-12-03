@@ -1,0 +1,71 @@
+<scene>
+  <instance name="sphere" path="models/sphere" />
+  <instance name="box" path="models/box" />
+  <image name="checkerboard" path="resources/checkerboard.png" />
+  <image name="white" path="resources/white.png" />
+  <image name="earth" path="resources/earthmap.png" />
+
+
+  <transform>
+    <set>
+      
+    </set>
+
+    <group>
+
+
+      <light>
+        <ambient>0.6 0.6 0.6</ambient>
+        <diffuse>0.6 0.6 0.6</diffuse>
+        <specular>0.6 0.6 0.6</specular>
+        <position>0 0 0</position>
+      </light>
+
+
+      <transform>
+        <set>
+          <scale>3 3 3</scale>
+          <translate>0 0 -5</translate>
+          
+        </set>
+        <object instanceof="sphere" texture="white">
+          <material>
+            <ambient>.9 .9 .9</ambient>
+            <diffuse>.9 .9 .9</diffuse>
+            <specular>.9 .9 .9</specular>
+            <shininess>5</shininess>
+            <absorption>.2</absorption>
+            <reflection>.8</reflection>
+            <!--<transparency>0.4</transparency>
+              <refractive>1.2</refractive>-->
+          </material>
+        </object>
+      </transform>
+
+      <transform>
+        <set>
+          <scale>3 3 3</scale>
+          <translate>0 0 5</translate>
+          
+        </set>
+        <object instanceof="box" texture="white">
+          <material>
+            <ambient>.7 .2 .2</ambient>
+            <diffuse>.7 .2 .2</diffuse>
+            <specular>.7 .2 .2</specular>
+            <shininess>5</shininess>
+            <absorption>1</absorption>
+            <reflection>0</reflection>
+            <!--<transparency>0.4</transparency>
+              <refractive>1.2</refractive>-->
+          </material>
+        </object>
+      </transform>
+
+    </group>
+  </transform>
+
+  
+ 
+
+</scene>

@@ -76,5 +76,8 @@
     <Xml Include="test_scene.xml">
       <Filter>Resource Files</Filter>
     </Xml>
+    <Xml Include="test_reflect.xml">
+      <Filter>Resource Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

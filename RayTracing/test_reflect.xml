@@ -4,25 +4,46 @@
   <image name="checkerboard" path="resources/checkerboard.png" />
   <image name="white" path="resources/white.png" />
   <image name="earth" path="resources/earthmap.png" />
+  <image name="brick" path="resources/brick.png" />
 
 
   <light>
     <ambient>0.6 0.6 0.6</ambient>
     <diffuse>0.6 0.6 0.6</diffuse>
     <specular>0.6 0.6 0.6</specular>
-    <position>2 5 1</position>
+    <position>0 10 0</position>
   </light>
 
+  <transform>
+    <set>
+
+      <scale>3 3 3</scale>
+      <translate>-6 2 1</translate>
+    </set>
+    <object instanceof="sphere" texture="earth">
+      <material>
+        <ambient>1 1 1</ambient>
+        <diffuse>.2 .2 .2</diffuse>
+        <specular>.2 .2 .2</specular>
+        <shininess>5</shininess>
+        <absorption>1</absorption>
+        <reflection>0</reflection>
+        <transparency>0</transparency>
+        <refractive>0</refractive>
+      </material>
+    </object>
+  </transform>
 
   <transform name="snowman">
     <set>
-      <translate>-5 -5.5 -5</translate>
-      <scale>.5 .5 .5</scale>
+      <translate>-2 -2.5 4</translate>
+      <scale>1 1 1</scale>
     </set>
   
   <group>
     <transform>
       <set>
+        
       </set>
 
       <object instanceof="sphere" texture="white">
@@ -38,8 +59,6 @@
         </material>
       </object>
     </transform>
-
-
 
     <transform>
       <set>
@@ -82,8 +101,16 @@
 
     </transform>
   </group>
-    
   </transform>
+
+
+  <transform>
+    <set>
+      <translate>6 0 -5</translate>
+    </set>
+    <group copyof="snowman"/>
+  </transform>
+  
 
 
   <transform>
@@ -92,11 +119,11 @@
       <scale>20 1 20</scale>
     </set>
 
-    <object instanceof="box" texture="checkerboard">
+    <object instanceof="box" texture="brick">
       <material>
-        <ambient>.4 .2 .8</ambient>
-        <diffuse>.4 .2 .8</diffuse>
-        <specular>.4 .2 .8</specular>
+        <ambient>.8 .8 .8</ambient>
+        <diffuse>.8 .8 .8</diffuse>
+        <specular>.8 .8 .8</specular>
         <shininess>5</shininess>
         <absorption>1</absorption>
         <reflection>0</reflection>
@@ -113,15 +140,10 @@
     </set>
 
     <group>
-
-
-     
-
-
       <transform>
         <set>
-          <scale>3 3 3</scale>
-          <translate>0 0 -5</translate>
+          <scale>10 10 10</scale>
+          <translate>0 3 -15</translate>
           
         </set>
         <object instanceof="sphere" texture="white">
@@ -140,16 +162,18 @@
 
       <transform>
         <set>
-          <scale>3 3 3</scale>
-          <translate>0 0 5</translate>
+          <scale>40 40 4</scale>
+         
+          <translate>7 10 20</translate>
+          <!--<scale>100 100 100</scale>-->
           
         </set>
         <object instanceof="box" texture="white">
           <material>
-            <ambient>.7 .2 .2</ambient>
-            <diffuse>.7 .2 .2</diffuse>
-            <specular>.7 .2 .2</specular>
-            <shininess>5</shininess>
+            <ambient>.7 .7 .7</ambient>
+            <diffuse>.7 .7 .7</diffuse>
+            <specular>.7 .7 .7</specular>
+            <shininess>100</shininess>
             <absorption>.2</absorption>
             <reflection>.8</reflection>
             <!--<transparency>0.4</transparency>
@@ -157,7 +181,6 @@
           </material>
         </object>
       </transform>
-
     </group>
   </transform>
 
